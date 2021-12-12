@@ -1,20 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-         Garrus learn react
-        </p>
-       <ul>
-         <li>1</li>
-         <li>2</li>
-         <li>3</li>
-       </ul>
+    <div className="app-wrapper">
+      <header className="header">
+        <img src="../img/logo.svg" alt="logo" />
+        <h1>Antisocial web</h1>
       </header>
+      <nav className="nav">
+        <ul>
+          <li>Profile</li>
+          <li>Messages</li>
+          <li>News</li>
+          <li>Music</li>
+        </ul>
+        <ul>
+          <li>Settings</li>
+        </ul>
+      </nav>
+      <main className="main">
+        <img src="../img/wallpaper.jpg" alt="wallpaper" className="wallpaper" />
+        <div className="profile-short-info"></div>
+        <div className="posts"></div>
+      </main>
+      <footer className="footer">
+        <div>Garrus-learn-react.LTD-JPG-PTU/BLR</div>
+      </footer>
     </div>
   );
 }
