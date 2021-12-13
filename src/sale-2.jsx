@@ -1,4 +1,4 @@
-const SaleJsxTwo = () => {
+const SaleJsxTwo = ({ price = 6000 }) => {
   return (
     <div>
       <h1 align="center">
@@ -18,7 +18,7 @@ const SaleJsxTwo = () => {
         </p>
         <p>
           <b>Цена:</b>
-          <del>6000</del>
+          <del>{price}</del>
           5500 рублей.
         </p>
         <p>
