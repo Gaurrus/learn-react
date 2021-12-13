@@ -5,7 +5,7 @@ import SaleJsxTwo from "./sale-2";
 function App() {
   return (
     <div>
-      <SaleJsxOne />
+      <SaleJsxOne price="10000451654654" />
       <SaleJsxTwo />
     </div>
   );

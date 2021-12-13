@@ -1,7 +1,8 @@
-const SaleJsxOne = () => {
+const SaleJsxOne = ({price = 35000}) => {
   return (
     <div>
-      <big>
+                   <big>
+ 
         <h1 align="center">
           14,15, 16 апреля! Праздничное открытие! Магазин промтоваров Галамарт!
         </h1>
@@ -23,7 +24,7 @@ const SaleJsxOne = () => {
             -<b>СЕРТИФИКАТ</b>
             на покупки
             <font color="red" face="Georgia" size="+1">
-              <b>30 000</b>
+              <b>{price}</b>
             </font>
             рублей (разыгрывается между посетителями).
           </p>
@@ -35,8 +36,7 @@ const SaleJsxOne = () => {
           </i>
         </font>
       </big>
-      {/* <hr> */}
-      
+      <hr />
     </div>
   );
 };
