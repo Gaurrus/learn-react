@@ -1,10 +1,22 @@
 .header {
-    display: grid;
-    grid-template-areas:
+  display: grid;
+  grid-template-areas:
     "bloc block"
     "nav  nav";
-    grid-template-columns: 80% 20%;
-    grid-template-rows: 80% 20%;
-    background-color: darkcyan;
-    grid-area: header;
+  grid-template-columns: 80% 20%;
+  grid-template-rows: 80% 20%;
+  background-color: darkcyan;
+  grid-area: header;
+}
+
+.orange {
+  margin: 20px;
+  background-color: orange;
+  grid-area: block;
+}
+
+.nav {
+  background-color: navy;
+  grid-area: nav;
+  color: white;
 }
