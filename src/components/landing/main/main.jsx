@@ -7,12 +7,10 @@ export const Main = (props) => (
     {texts.articles.map((articleItem, index) => (
       <article className={styles[`article-${index}`]}>{articleItem}</article>
     ))}
-    {/* <article className={styles.articleOne}>{texts.articles[0]}</article>
-    <article className={styles.articleTwo}>{texts.articles[1]}</article> */}
-    <aside className={styles.asideOne}>{texts.aside}</aside>
-    <aside className={styles.asideTwo}>{texts.aside}</aside>
-    <article className={styles.articleThree}>{texts.article}</article>
-    <article className={styles.articleFour}>{texts.article}</article>
-    <article className={styles.articleFive}>{texts.article}</article>
+      {texts.asides.map((asideItem, index)=>  <aside className={styles[`aside-${index}`]}>{asideItem}</aside>)}
+
+      {texts.bottomArticles.map((articleItem, index) => (
+          <article className={styles[`articleBot-${index}`]}>{articleItem}</article>
+      ))}
   </main>
 );
