@@ -1,5 +1,6 @@
-import { Landing } from '../landing'
+import { Table } from '../table'
 
 export const App = () => {
-  return <Landing />
+  const isTableVisible = true;
+  return isTableVisible ? <Table/> : <h1>Пусто</h1>
 }

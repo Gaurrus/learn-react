@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.table {
+  border-collapse: collapse;
+  border: solid black 1px;
+  margin: 20px;
+  text-align: justify;
+}
+
+.td {
+  padding: 5px;
+  border: black solid 1px;
+  min-width: 50px;
+}
