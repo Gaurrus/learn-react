@@ -1,15 +1,17 @@
-import styles from "./table.module.css";
+import { TableRow } from "./rows";
 
 import { inData } from './../../constants/in-data';
 
+import styles from "./table.module.css";
+
+
 export const Table = (props) => {
   return <table className={styles.table}>
-    {inData.map((item) => <tr>
-      <td className={styles.td}>{item.id}</td>
-      <td className={styles.td}>{item.userId}</td>
-      <td className={styles.td}>{item.title}</td>
-      <td className={styles.td}>{item.body}</td>
-    </tr>
-    )}
+    <thead>
+      {<TableRow dataRow={Object.keys(inData[0])} th />}
+    </thead>
+    <tbody>
+      {inData.map((item) => <TableRow dataRow={Object.values(item)} key={item.id} />)}
+    </tbody>
   </table>
 };

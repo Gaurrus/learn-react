@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.list {display: block;
+  margin: 20px auto;
+  max-width: 800px;
+  text-align: justify;
+}
+
+.list li {
+  margin-left: 40px;
+  max-width: 600px;
+}
+.list ul {
+  margin-bottom: 20px;
+  
+}

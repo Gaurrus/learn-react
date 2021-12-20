@@ -1,6 +1,8 @@
 import { Table } from '../table'
+import { List } from './../list';
+import './app.css'
 
 export const App = () => {
   const isTableVisible = true;
-  return isTableVisible ? <Table/> : <h1>Пусто</h1>
+  return isTableVisible ? <Table /> : <List />
 }
