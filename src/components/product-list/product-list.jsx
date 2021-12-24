@@ -7,7 +7,7 @@ export class ProductList extends React.Component {
   render() {
     return (
       <div className={styles.produsctList}>
-        <Product products={this.props.products}/>
+        <Product key={this.props.products.id} products={this.props.products}/>
       </div>
     );
   }
