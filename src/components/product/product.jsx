@@ -3,8 +3,14 @@ import React from "react";
 import styles from "./product.module.css";
 
 export class Product extends React.Component {
+  cart = (value) => {
+    const number = value;
+    return number;
+  }
   render() {
     const product = this.props.product;
+
+
     return (
       <div className={styles.productCard}>
         <div>{product.title}</div>
@@ -18,9 +24,11 @@ export class Product extends React.Component {
           name={product.id}
           type="number"
           onChange={(e) => {
-            this.props.addInCart(product.id, e.currentTarget.value);
+            this.cart(e.currentTarget.value);
           }}
         />
+
+        <button onClick={(e) => { this.props.addInCart(product.id, this.cart()) }}>Add in cart</button>
         {console.log(this.props.addInCart, `prod`)}
       </div>
     );

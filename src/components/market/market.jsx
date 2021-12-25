@@ -24,9 +24,11 @@ export class Market extends React.Component {
   }
 
   addInCart = (id, value) => {
-    const newState = this.state.find((item) => item.name === id);
-    newState.howMany = value;
-    this.setState((prevState) => [...prevState, newState]);
+    const newState = {
+      id: id,
+      howMany: value
+    }
+    console.log(newState)
   };
   render() {
     return (
