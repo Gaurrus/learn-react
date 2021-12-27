@@ -3,10 +3,15 @@ import React from "react";
 import styles from "./product.module.css";
 
 export class Product extends React.Component {
-  cart = (value) => {
-    const number = value;
-    return number;
+  constructor(props) {
+    super(props)
+    this.state = { value: 0 }
   }
+
+  handleChange = (e) => {
+    this.setState = { value: e.target.value, name: this.props.product.title }
+  }
+
   render() {
     const product = this.props.product;
 
@@ -23,13 +28,13 @@ export class Product extends React.Component {
         <input
           name={product.id}
           type="number"
-          onChange={(e) => {
-            this.cart(e.currentTarget.value);
-          }}
-        />
+          value={this.setState.value}
+          onChange={this.handleChange}
 
-        <button onClick={(e) => { this.props.addInCart(product.id, this.cart()) }}>Add in cart</button>
-        {console.log(this.props.addInCart, `prod`)}
+        />
+        <button>В корзину</button>
+
+
       </div>
     );
   }
