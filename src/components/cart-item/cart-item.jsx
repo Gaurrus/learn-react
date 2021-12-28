@@ -1,12 +1,16 @@
 import React from "react";
 
-import styles from "./cart.module.css";
+import styles from './cart-item.module.css'
 
-export class Cart extends React.Component {
+export class CartItem extends React.Component {
 
   render() {
     return (
       <div className={styles.cart}>
+        {this.props.cartItems.map((cartItem) => (<span>
+          {cartItem.value}, {cartItem.cost}
+        </span>
+        ))}
         <div className={styles.cartItem}>
           <span>
             Купить:
@@ -14,24 +18,6 @@ export class Cart extends React.Component {
           <img src={this.props.inCart.tv.image} alt="img" className={styles.img} />
           <span>
             {this.props.inCart.tv.value}шт. - на сумму: {this.props.inCart.tv.cost} зай
-          </span>
-        </div>
-        <div className={styles.cartItem}>
-          <span>
-            Купить:
-          </span>
-          <img src={this.props.inCart.fridge.image} alt="img" className={styles.img} />
-          <span>
-            {this.props.inCart.fridge.value}шт. - на сумму: {this.props.inCart.fridge.cost} зай
-          </span>
-        </div>
-        <div className={styles.cartItem}>
-          <span>
-            Купить:
-          </span>
-          <img src={this.props.inCart.washingMashine.image} alt="img" className={styles.img} />
-          <span>
-            {this.props.inCart.washingMashine.value}шт. - на сумму: {this.props.inCart.washingMashine.cost} зай
           </span>
         </div>
         <div className={styles.buttonBlock}>

@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./product.module.css";
 
-const INITIAL_STATE = { value: 0, cost: 0 }
+const INITIAL_STATE = { value: '0', cost: '0', image: ''}
 
 export class Product extends React.Component {
   constructor(props) {
@@ -13,11 +13,13 @@ export class Product extends React.Component {
   }
 
   handleChange = (e) => {
-    this.setState({ value: e.target.value, cost: +e.target.value*this.props.product.cost })
+    this.setState({ value: e.target.value, cost: +e.target.value*this.props.product.cost, image: this.props.product.imgSrc
+       })
   }
 
   buttonClick = () => {
-    this.props.addInCart(this.props.product.id, +this.state.value, this.state.cost)
+    this.props.addInCart(this.props.product.id, +this.state.value, this.state.cost, this.state.image)
+    console.log(this.state.image)
     this.setState(INITIAL_STATE)
   }
 

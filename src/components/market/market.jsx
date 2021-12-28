@@ -5,9 +5,9 @@ import styles from "./market.module.css";
 import { Cart } from './../cart';
 
 const INITIAL_STATE = {
-  tv: { value: 0, cost: 0 },
-  fridge: { value: 0, cost: 0 },
-  washingMashine: { value: 0, cost: 0 },
+  tv: { value: '0', cost: '0', image: '' },
+  fridge: { value: '0', cost: '0', image: '' },
+  washingMashine: { value: '0', cost: '0', image: '' },
 }
 
 export class Market extends React.Component {
@@ -17,12 +17,13 @@ export class Market extends React.Component {
     this.addInCart = this.addInCart.bind(this)
   }
 
-  addInCart = (name, value, cost) => {
+  addInCart = (name, value, cost, image) => {
     this.setState({
       [name]: {
-        value: value + this.state[name].value,
+        value: +value + +this.state[name].value,
 
-        cost: this.state[name].cost + cost
+        cost: +this.state[name].cost + +cost,
+        image: image
       }
     })
   }
