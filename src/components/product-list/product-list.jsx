@@ -14,7 +14,6 @@ export class ProductList extends React.Component {
             addInCart={this.props.addInCart}
           />
         ))}
-        {console.log(this.props.addInCart, `prod-list`)}
       </div>
     );
   }

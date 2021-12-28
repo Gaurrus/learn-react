@@ -1,12 +1,12 @@
 import { products } from "../../constants";
-import { Cart } from "../cart";
+
 import { Market } from "../market";
 
-import styles from "./app.module.css";
+import  "./app.module.css";
 
-export const App = () => (
+export const App = (props) => (
   <>
     <Market products={products} />
-    <Cart />
+    
   </>
 );
