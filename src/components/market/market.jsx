@@ -1,5 +1,8 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import { ProductList } from "../product-list";
+import { Nav } from './../nav';
 
 import styles from "./market.module.css";
 import { Cart } from './../cart';
@@ -34,17 +37,23 @@ export class Market extends React.Component {
 
   Buy = () => {
     console.log(this.state)
+    this.setState(INITIAL_STATE)
   }
 
   render() {
     return (
       <div className={styles.market}>
-        <ProductList
-          products={this.props.products}
-          cart={this.props.cart}
-          addInCart={this.addInCart}
-        />
-        <Cart inCart={this.state} cleanCart={this.cleanCart}  Buy={this.Buy}/>
+        <BrowserRouter>
+          <Routes>
+            <Route exact path="/products" element={<ProductList
+              products={this.props.products}
+              cart={this.props.cart}
+              addInCart={this.addInCart}
+            />} />
+            <Route exact path='/cart' element={<Cart inCart={this.state} cleanCart={this.cleanCart} Buy={this.Buy} />} />
+          </Routes>
+          <Nav />
+        </BrowserRouter>
       </div>
     );
   }
