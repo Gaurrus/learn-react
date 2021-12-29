@@ -4,6 +4,7 @@ import styles from "./cart.module.css";
 
 export class Cart extends React.Component {
 
+
   render() {
     const summ = +this.props.inCart.tv.cost + +this.props.inCart.fridge.cost + +this.props.inCart.washingMashine.cost
     if (this.props.inCart.tv.value >= 1 || this.props.inCart.fridge.value >= 1 || this.props.inCart.washingMashine.value >= 1) {
@@ -34,6 +35,8 @@ export class Cart extends React.Component {
           <div className={styles.buttonBlock}>
             <button className={styles.button} onClick={this.props.cleanCart}>Очистить корзину</button>
             <button className={styles.button} onClick={this.props.Buy}>Оформить покупку</button>
+
+
           </div>
 
           {summ ? <span>Общая сумма: {summ}</span> : <span></span>}

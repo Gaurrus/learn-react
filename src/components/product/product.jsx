@@ -20,6 +20,7 @@ export class Product extends React.Component {
 
   buttonClick = () => {
     this.props.addInCart(this.props.product.id, +this.state.value, this.state.cost, this.state.image)
+    this.props.addingInCartSum(+this.state.value);
     this.setState(INITIAL_STATE)
   }
 
@@ -36,6 +37,7 @@ export class Product extends React.Component {
         />
         <span>{product.cost} за</span>
         <input
+        className={styles.input}
           name={product.id}
           type="number"
           value={this.state.value}
@@ -44,7 +46,12 @@ export class Product extends React.Component {
         />
 
         <span>{this.state.cost} зайчиков</span>
-        <button onClick={this.buttonClick}>В корзину</button>
+        <button className={styles.button} onClick={() => {
+          this.buttonClick();
+          
+        }
+
+        }>В корзину</button>
 
 
       </div>

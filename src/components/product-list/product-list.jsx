@@ -12,6 +12,7 @@ export class ProductList extends React.Component {
             key={product.key}
             product={product}
             addInCart={this.props.addInCart}
+            addingInCartSum={this.props.addingInCartSum}
           />
         ))}
       </div>
