@@ -10,10 +10,10 @@ export class Nav extends React.Component {
     return (
       <ul className={styles.navList}>
         <li>
-          <NavLink to="/">На главную</NavLink>
+          <NavLink to="">На главную</NavLink>
         </li>
         <li>
-          <NavLink to="/products">Магазин</NavLink>
+          <NavLink to="">Магазин</NavLink>
         </li>
         <li>
           <NavLink to="/cart">Корзина({this.props.state.cartValue.value})</NavLink>

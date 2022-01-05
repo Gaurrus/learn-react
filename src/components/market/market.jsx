@@ -53,7 +53,7 @@ export class Market extends React.Component {
       <div className={styles.market}>
         <BrowserRouter>
           <Routes>
-            <Route exact path="/products" element={<ProductList
+            <Route exact path="" element={<ProductList
               products={this.props.products}
               cart={this.props.cart}
               addInCart={this.addInCart}
