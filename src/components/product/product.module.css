@@ -1,0 +1,27 @@
+.productCard {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 20px;
+  align-items: center
+}
+.img {
+  max-width: 100px;
+}
+
+.input {
+  height: 22px;
+  width: 60px;
+  font-size: 16px;
+  border: none;
+  border-radius: 2px;
+  box-shadow: 2px 2px 5px;
+}
+
+.button {
+  padding: 6px 8px;
+  color: white;
+  background-color: rgb(0, 0, 0);
+  border-radius: 2px;
+  margin: 0
+}
