@@ -1,18 +1,18 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { ProductList } from "../product-list";
-import { Nav } from "./../nav";
-import { Modal } from "./../modal";
-import { Cart } from "./../cart";
+import { ProductList } from '../product-list';
+import { Nav } from './../nav';
+import { Modal } from './../modal';
+import { Cart } from './../cart';
 
-import styles from "./market.module.css";
+import styles from './market.module.css';
 
 const INITIAL_STATE = {
-  tv: { value: "0", cost: "0", image: "" },
-  fridge: { value: "0", cost: "0", image: "" },
-  washingMashine: { value: "0", cost: "0", image: "" },
-  cartValue: { value: "" },
+  tv: { value: '0', cost: '0', image: '' },
+  fridge: { value: '0', cost: '0', image: '' },
+  washingMashine: { value: '0', cost: '0', image: '' },
+  cartValue: { value: '' },
   isModalVisible: false,
   summ: 0,
 };
@@ -86,11 +86,7 @@ export class Market extends React.Component {
           <Nav state={this.state} />
           {this.state.isModalVisible && (
             <Modal closeMessage={this.closeMessage}>
-              {this.state.summ < 3000 ? (
-                <div>Поздравляем с покупками!</div>
-              ) : (
-                <div>Не достаточно средств</div>
-              )}
+              {this.state.summ < 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
             </Modal>
           )}
         </BrowserRouter>

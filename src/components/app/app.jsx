@@ -1,9 +1,8 @@
-import { Market } from "../market";
+import { Market } from '../market';
 import { ErrorBoundary } from './../error-boundary';
 
-import { products } from "../../constants";
-import "./app.module.css";
-
+import { products } from '../../constants';
+import './app.module.css';
 
 export const App = (props) => (
   <ErrorBoundary>
