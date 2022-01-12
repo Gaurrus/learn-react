@@ -1,4 +1,7 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import { PropTypes } from 'prop-types';
 
 import styles from './cart.module.css';
 
@@ -25,7 +28,7 @@ export class Cart extends React.Component {
             </span>
           </div>
         ) : (
-          <div></div>
+          <div />
         )}
 
         {this.props.inCart.washingMashine.value >= 1 ? (
@@ -36,20 +39,47 @@ export class Cart extends React.Component {
             </span>
           </div>
         ) : (
-          <div></div>
+          <div />
         )}
 
         <div className={styles.buttonBlock}>
-          <button className={styles.button} onClick={this.props.cleanCart}>
+          <button type="button" className={styles.button} onClick={this.props.cleanCart}>
             Очистить корзину
           </button>
-          <button className={styles.button} onClick={this.props.Buy}>
+          <button type="button" className={styles.button} onClick={this.props.Buy}>
             Оформить покупку
           </button>
         </div>
 
-        {this.props.inCart.summ ? <span>Общая сумма: {this.props.inCart.summ}</span> : <span></span>}
+        {this.props.inCart.summ ? <span>Общая сумма: {this.props.inCart.summ}</span> : <span />}
       </div>
     );
   }
 }
+
+Cart.propTypes = {
+  cleanCart: PropTypes.func.isRequired,
+  Buy: PropTypes.func.isRequired,
+  inCart: PropTypes.shape({
+    tv: PropTypes.shape({
+      value: PropTypes.number,
+      cost: PropTypes.number,
+      image: PropTypes.string,
+    }),
+    fridge: PropTypes.shape({
+      value: PropTypes.number,
+      cost: PropTypes.number,
+      image: PropTypes.string,
+    }),
+    washingMashine: PropTypes.shape({
+      value: PropTypes.number,
+      cost: PropTypes.number,
+      image: PropTypes.string,
+    }),
+    cartValue: PropTypes.shape({
+      value: PropTypes.number,
+    }),
+    isModalVisible: PropTypes.bool.isRequired,
+    summ: PropTypes.number.isRequired,
+  }).isRequired,
+};

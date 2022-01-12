@@ -1,10 +1,12 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { ProductList } from '../product-list';
-import { Nav } from './../nav';
-import { Modal } from './../modal';
-import { Cart } from './../cart';
+import { Nav } from '../nav';
+import { Modal } from '../modal';
+import { Cart } from '../cart';
 
 import styles from './market.module.css';
 
@@ -23,14 +25,16 @@ export class Market extends React.Component {
     this.state = INITIAL_STATE;
   }
 
+  getState = () => this.state;
+
   addInCart = (name, value, cost, image) => {
     this.setState({
       [name]: {
-        value: +value + +this.state[name].value,
-        cost: +this.state[name].cost + cost,
+        value: +value + +this.getState()[name].value,
+        cost: +this.getState()[name].cost + cost,
         image: image,
       },
-      summ: this.state.summ + cost,
+      summ: this.getState().summ + cost,
     });
   };
 
@@ -47,9 +51,11 @@ export class Market extends React.Component {
     this.setState({ isModalVisible: true });
   };
 
+  getCartValue = () => this.state.cartValue;
+
   addingInCartSum = (summInCart) => {
     this.setState({
-      cartValue: { value: +this.state.cartValue.value + +summInCart },
+      cartValue: { value: +this.getCartValue().value + +summInCart },
     });
   };
 
@@ -64,7 +70,7 @@ export class Market extends React.Component {
               element={
                 <ProductList
                   products={this.props.products}
-                  cart={this.props.cart}
+                  // cart={this.props.cart}
                   addInCart={this.addInCart}
                   addingInCartSum={this.addingInCartSum}
                 />
@@ -94,3 +100,17 @@ export class Market extends React.Component {
     );
   }
 }
+
+Market.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      id: PropTypes.string,
+      description: PropTypes.string,
+      imgSrc: PropTypes.string,
+      key: PropTypes.number,
+      cost: PropTypes.number,
+    }),
+  ).isRequired,
+  // cart: PropTypes.element.isRequired,
+};

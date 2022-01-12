@@ -1,4 +1,6 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './product.module.css';
 
@@ -27,7 +29,7 @@ export class Product extends React.Component {
   };
 
   render() {
-    const product = this.props.product;
+    const { product } = this.props;
     return (
       <div className={styles.productCard}>
         <div>{product.title}</div>
@@ -44,6 +46,7 @@ export class Product extends React.Component {
 
         <span>{this.state.cost} зайчиков</span>
         <button
+          type="button"
           className={styles.button}
           onClick={() => {
             this.buttonClick();
@@ -55,3 +58,16 @@ export class Product extends React.Component {
     );
   }
 }
+
+Product.propTypes = {
+  product: PropTypes.shape({
+    title: PropTypes.string,
+    id: PropTypes.string,
+    description: PropTypes.string,
+    imgSrc: PropTypes.string,
+    key: PropTypes.number,
+    cost: PropTypes.number,
+  }).isRequired,
+  addInCart: PropTypes.func.isRequired,
+  addingInCartSum: PropTypes.func.isRequired,
+};
