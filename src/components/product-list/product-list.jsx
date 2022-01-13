@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prefer-stateless-function */
 
 import PropTypes from 'prop-types';
@@ -12,13 +11,8 @@ export class ProductList extends React.Component {
     const { products, addInCart, addingInCartSum } = this.props;
     return (
       <div className={styles.produsctList}>
-        {this.props.products.map((product) => (
-          <Product
-            key={product.key}
-            product={product}
-            addInCart={this.props.addInCart}
-            addingInCartSum={this.props.addingInCartSum}
-          />
+        {products.map((product) => (
+          <Product key={product.key} product={product} addInCart={addInCart} addingInCartSum={addingInCartSum} />
         ))}
       </div>
     );
