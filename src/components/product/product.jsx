@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './product.module.css';
 
-const INITIAL_STATE = { value: '0', cost: '0', image: '' };
+const INITIAL_STATE = { value: 0, cost: 0, image: '' };
 
 export class Product extends React.Component {
   constructor(props) {

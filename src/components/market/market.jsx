@@ -11,10 +11,10 @@ import { Cart } from '../cart';
 import styles from './market.module.css';
 
 const INITIAL_STATE = {
-  tv: { value: '0', cost: '0', image: '' },
-  fridge: { value: '0', cost: '0', image: '' },
-  washingMashine: { value: '0', cost: '0', image: '' },
-  cartValue: { value: '' },
+  tv: { value: 0, cost: 0, image: '' },
+  fridge: { value: 0, cost: 0, image: '' },
+  washingMashine: { value: 0, cost: 0, image: '' },
+  cartValue: { value: 0 },
   isModalVisible: false,
   summ: 0,
 };

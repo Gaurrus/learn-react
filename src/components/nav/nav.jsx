@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
@@ -8,6 +7,7 @@ import styles from './nav.module.css';
 
 export class Nav extends React.Component {
   render() {
+    const { state } = this.props;
     return (
       <ul className={styles.navList}>
         <li>
@@ -17,7 +17,7 @@ export class Nav extends React.Component {
           <NavLink to="">Магазин</NavLink>
         </li>
         <li>
-          <NavLink to="/cart">Корзина({this.props.state.cartValue.value})</NavLink>
+          <NavLink to="/cart">Корзина({state.cartValue.value})</NavLink>
         </li>
       </ul>
     );
@@ -27,22 +27,22 @@ export class Nav extends React.Component {
 Nav.propTypes = {
   state: PropTypes.shape({
     tv: PropTypes.shape({
-      value: PropTypes.string,
-      cost: PropTypes.string,
+      value: PropTypes.number,
+      cost: PropTypes.number,
       image: PropTypes.string,
     }),
     fridge: PropTypes.shape({
-      value: PropTypes.string,
-      cost: PropTypes.string,
+      value: PropTypes.number,
+      cost: PropTypes.number,
       image: PropTypes.string,
     }),
     washingMashine: PropTypes.shape({
-      value: PropTypes.string,
-      cost: PropTypes.string,
+      value: PropTypes.number,
+      cost: PropTypes.number,
       image: PropTypes.string,
     }),
     cartValue: PropTypes.shape({
-      value: PropTypes.string,
+      value: PropTypes.number,
     }),
     isModalVisible: PropTypes.bool.isRequired,
     summ: PropTypes.number.isRequired,

@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import { PropTypes } from 'prop-types';
@@ -7,35 +6,36 @@ import styles from './cart.module.css';
 
 export class Cart extends React.Component {
   render() {
+    const { inCart, cleanCart, Buy } = this.props;
     return (
       <div className={styles.cart}>
-        {this.props.inCart.tv.value >= 1 ? (
+        {inCart.tv.value >= 1 ? (
           <div className={styles.cartItem}>
-            <img src={this.props.inCart.tv.image} alt="img" className={styles.img} />
+            <img src={inCart.tv.image} alt="img" className={styles.img} />
             <span>
-              {this.props.inCart.tv.value}шт. - на сумму: {this.props.inCart.tv.cost} зай
+              {inCart.tv.value}шт. - на сумму: {inCart.tv.cost} зай
             </span>
           </div>
         ) : (
           <div> </div>
         )}
 
-        {this.props.inCart.fridge.value >= 1 ? (
+        {inCart.fridge.value >= 1 ? (
           <div className={styles.cartItem}>
-            <img src={this.props.inCart.fridge.image} alt="img" className={styles.img} />
+            <img src={inCart.fridge.image} alt="img" className={styles.img} />
             <span>
-              {this.props.inCart.fridge.value}шт. - на сумму: {this.props.inCart.fridge.cost} зай
+              {inCart.fridge.value}шт. - на сумму: {inCart.fridge.cost} зай
             </span>
           </div>
         ) : (
           <div />
         )}
 
-        {this.props.inCart.washingMashine.value >= 1 ? (
+        {inCart.washingMashine.value >= 1 ? (
           <div className={styles.cartItem}>
-            <img src={this.props.inCart.washingMashine.image} alt="img" className={styles.img} />
+            <img src={inCart.washingMashine.image} alt="img" className={styles.img} />
             <span>
-              {this.props.inCart.washingMashine.value}шт. - на сумму: {this.props.inCart.washingMashine.cost} зай
+              {inCart.washingMashine.value}шт. - на сумму: {inCart.washingMashine.cost} зай
             </span>
           </div>
         ) : (
@@ -43,15 +43,15 @@ export class Cart extends React.Component {
         )}
 
         <div className={styles.buttonBlock}>
-          <button type="button" className={styles.button} onClick={this.props.cleanCart}>
+          <button type="button" className={styles.button} onClick={cleanCart}>
             Очистить корзину
           </button>
-          <button type="button" className={styles.button} onClick={this.props.Buy}>
+          <button type="button" className={styles.button} onClick={Buy}>
             Оформить покупку
           </button>
         </div>
 
-        {this.props.inCart.summ ? <span>Общая сумма: {this.props.inCart.summ}</span> : <span />}
+        {inCart.summ ? <span>Общая сумма: {inCart.summ}</span> : <span />}
       </div>
     );
   }
