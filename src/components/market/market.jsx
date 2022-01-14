@@ -17,6 +17,7 @@ const INITIAL_STATE = {
   cartValue: { value: 0 },
   isModalVisible: false,
   summ: 0,
+  timer: 300,
 };
 
 export class Market extends React.Component {
@@ -24,6 +25,16 @@ export class Market extends React.Component {
     super();
     this.state = INITIAL_STATE;
   }
+
+  startTimer = () => {
+    this.timerID = setInterval(() => this.timer(), 1000);
+  };
+
+  stopTimer = () => {
+    clearInterval(this.timerID);
+  };
+
+  visibleModal = () => this.setState({ isModalVisible: true });
 
   getState = () => this.state;
 
@@ -59,6 +70,21 @@ export class Market extends React.Component {
     });
   };
 
+  timer() {
+    const { timer } = this.state;
+    if (timer !== 1)
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    else {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+      this.cleanCart();
+      clearInterval(this.timerID);
+    }
+  }
+
   render() {
     return (
       <div className={styles.market}>
@@ -89,7 +115,14 @@ export class Market extends React.Component {
               }
             />
           </Routes>
-          <Nav state={this.state} />
+          <Nav
+            state={this.state}
+            cleanCart={this.cleanCart}
+            visibleModal={this.visibleModal}
+            closeMessage={this.closeMessage}
+            startTimer={this.startTimer}
+            stopTimer={this.stopTimer}
+          />
           {this.state.isModalVisible && (
             <Modal closeMessage={this.closeMessage}>
               {this.state.summ < 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}

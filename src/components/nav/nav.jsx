@@ -8,7 +8,7 @@ import { Countdown } from '../countdown';
 
 export class Nav extends React.Component {
   render() {
-    const { state } = this.props;
+    const { state, cleanCart, visibleModal, closeMessage, startTimer, stopTimer } = this.props;
     return (
       <ul className={styles.navList}>
         <li>
@@ -21,7 +21,14 @@ export class Nav extends React.Component {
           <NavLink to="/cart">Корзина({state.cartValue.value})</NavLink>
         </li>
         <li>
-          <Countdown />
+          <Countdown
+            state={state}
+            cleanCart={cleanCart}
+            visibleModal={visibleModal}
+            closeMessage={closeMessage}
+            startTimer={startTimer}
+            stopTimer={stopTimer}
+          />
         </li>
       </ul>
     );
@@ -50,5 +57,11 @@ Nav.propTypes = {
     }),
     isModalVisible: PropTypes.bool.isRequired,
     summ: PropTypes.number.isRequired,
+    timer: PropTypes.number.isRequired,
   }).isRequired,
+  cleanCart: PropTypes.func.isRequired,
+  visibleModal: PropTypes.func.isRequired,
+  closeMessage: PropTypes.func.isRequired,
+  startTimer: PropTypes.func.isRequired,
+  stopTimer: PropTypes.func.isRequired,
 };
