@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 
 import styles from './nav.module.css';
+import { Countdown } from '../countdown';
 
 export class Nav extends React.Component {
   render() {
@@ -18,6 +19,9 @@ export class Nav extends React.Component {
         </li>
         <li>
           <NavLink to="/cart">Корзина({state.cartValue.value})</NavLink>
+        </li>
+        <li>
+          <Countdown />
         </li>
       </ul>
     );
