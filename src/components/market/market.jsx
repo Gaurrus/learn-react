@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   cartValue: { value: 0 },
   isModalVisible: false,
   summ: 0,
-  timer: 300,
+  timer: 0,
 };
 
 export class Market extends React.Component {
@@ -33,6 +33,8 @@ export class Market extends React.Component {
   stopTimer = () => {
     clearInterval(this.timerID);
   };
+
+  timerSet = () => this.setState({ timer: 10 });
 
   visibleModal = () => this.setState({ isModalVisible: true });
 
@@ -122,6 +124,7 @@ export class Market extends React.Component {
             closeMessage={this.closeMessage}
             startTimer={this.startTimer}
             stopTimer={this.stopTimer}
+            timerSet={this.timerSet}
           />
           {this.state.isModalVisible && (
             <Modal closeMessage={this.closeMessage}>

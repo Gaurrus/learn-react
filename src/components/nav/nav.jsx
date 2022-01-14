@@ -8,7 +8,7 @@ import { Countdown } from '../countdown';
 
 export class Nav extends React.Component {
   render() {
-    const { state, cleanCart, visibleModal, closeMessage, startTimer, stopTimer } = this.props;
+    const { state, cleanCart, visibleModal, closeMessage, startTimer, stopTimer, timerSet } = this.props;
     return (
       <ul className={styles.navList}>
         <li>
@@ -28,6 +28,7 @@ export class Nav extends React.Component {
             closeMessage={closeMessage}
             startTimer={startTimer}
             stopTimer={stopTimer}
+            timerSet={timerSet}
           />
         </li>
       </ul>
@@ -64,4 +65,5 @@ Nav.propTypes = {
   closeMessage: PropTypes.func.isRequired,
   startTimer: PropTypes.func.isRequired,
   stopTimer: PropTypes.func.isRequired,
+  timerSet: PropTypes.func.isRequired,
 };
