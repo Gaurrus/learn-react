@@ -6,18 +6,13 @@ import { Product } from '../product';
 
 import styles from './product-list.module.css';
 
-export class ProductList extends React.Component {
-  render() {
-    const { products, addInCart, addingInCartSum } = this.props;
-    return (
-      <div className={styles.produsctList}>
-        {products.map((product) => (
-          <Product key={product.key} product={product} addInCart={addInCart} addingInCartSum={addingInCartSum} />
-        ))}
-      </div>
-    );
-  }
-}
+export const ProductList = ({ products, addInCart, addingInCartSum }) => (
+  <div className={styles.produsctList}>
+    {products.map((product) => (
+      <Product key={product.key} product={product} addInCart={addInCart} addingInCartSum={addingInCartSum} />
+    ))}
+  </div>
+);
 
 ProductList.propTypes = {
   products: PropTypes.arrayOf(

@@ -11,7 +11,7 @@
     "ecmaVersion": 13,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier"],
+  "plugins": ["react", "prettier", "react-hooks"],
   "globals": {
     "window": true,
     "FormData": true,
@@ -19,6 +19,8 @@
     "document": true
   },
   "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "prettier/prettier": "error",
     "no-unused-vars": "warn",
     "no-console": "off",

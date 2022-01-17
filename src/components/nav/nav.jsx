@@ -6,35 +6,39 @@ import { PropTypes } from 'prop-types';
 import styles from './nav.module.css';
 import { Countdown } from '../countdown';
 
-export class Nav extends React.Component {
-  render() {
-    const { state, cleanCart, visibleModal, closeMessage, startTimer, stopTimer, timerSet } = this.props;
-    return (
-      <ul className={styles.navList}>
-        <li>
-          <NavLink to="">На главную</NavLink>
-        </li>
-        <li>
-          <NavLink to="">Магазин</NavLink>
-        </li>
-        <li>
-          <NavLink to="/cart">Корзина({state.cartValue.value})</NavLink>
-        </li>
-        <li>
-          <Countdown
-            state={state}
-            cleanCart={cleanCart}
-            visibleModal={visibleModal}
-            closeMessage={closeMessage}
-            startTimer={startTimer}
-            stopTimer={stopTimer}
-            timerSet={timerSet}
-          />
-        </li>
-      </ul>
-    );
-  }
-}
+export const Nav = ({
+  state,
+  state: { cartValue },
+  cleanCart,
+  visibleModal,
+  closeMessage,
+  startTimer,
+  stopTimer,
+  timerSet,
+}) => (
+  <ul className={styles.navList}>
+    <li>
+      <NavLink to="">На главную</NavLink>
+    </li>
+    <li>
+      <NavLink to="">Магазин</NavLink>
+    </li>
+    <li>
+      <NavLink to="/cart">Корзина({cartValue.value})</NavLink>
+    </li>
+    <li>
+      <Countdown
+        state={state}
+        cleanCart={cleanCart}
+        visibleModal={visibleModal}
+        closeMessage={closeMessage}
+        startTimer={startTimer}
+        stopTimer={stopTimer}
+        timerSet={timerSet}
+      />
+    </li>
+  </ul>
+);
 
 Nav.propTypes = {
   state: PropTypes.shape({
