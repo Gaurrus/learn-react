@@ -1,5 +1,4 @@
-/* eslint-disable react/destructuring-assignment */
-import React from 'react';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -7,6 +6,7 @@ import { ProductList } from '../product-list';
 import { Nav } from '../nav';
 import { Modal } from '../modal';
 import { Cart } from '../cart';
+import { Main } from '../main';
 
 import styles from './market.module.css';
 
@@ -14,128 +14,81 @@ const INITIAL_STATE = {
   tv: { value: 0, cost: 0, image: '' },
   fridge: { value: 0, cost: 0, image: '' },
   washingMashine: { value: 0, cost: 0, image: '' },
-  cartValue: { value: 0 },
-  isModalVisible: false,
-  summ: 0,
-  timer: 0,
 };
 
-export class Market extends React.Component {
-  constructor() {
-    super();
-    this.state = INITIAL_STATE;
-  }
+export const Market = ({ products }) => {
+  const [summ, setSumm] = useState(0);
+  const [state, setState] = useState(INITIAL_STATE);
+  const [cartValue, setСartValue] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  startTimer = () => {
-    this.timerID = setInterval(() => this.timer(), 1000);
-  };
+  const visibleModal = () => setIsModalVisible(true);
 
-  stopTimer = () => {
-    clearInterval(this.timerID);
-  };
-
-  timerSet = () => this.setState({ timer: 10 });
-
-  visibleModal = () => this.setState({ isModalVisible: true });
-
-  getState = () => this.state;
-
-  addInCart = (name, value, cost, image) => {
-    this.setState({
+  const addInCart = (name, value, cost, image) => {
+    setState((prevState) => ({
+      ...prevState,
       [name]: {
-        value: +value + +this.getState()[name].value,
-        cost: +this.getState()[name].cost + cost,
+        value: +value + +state[name].value,
+        cost: +state[name].cost + cost,
         image: image,
       },
-      summ: this.getState().summ + cost,
-    });
+    }));
+    setSumm((prevSumm) => prevSumm + cost);
   };
 
-  cleanCart = () => {
-    this.setState(INITIAL_STATE);
+  const cleanCart = () => {
+    setState(INITIAL_STATE);
+    setСartValue(0);
+    setSumm(0);
   };
 
-  closeMessage = () => {
-    this.setState({ isModalVisible: false });
+  const closeMessage = () => {
+    setIsModalVisible(false);
   };
 
-  Buy = () => {
-    if (this.state.summ <= 3000) this.setState(INITIAL_STATE);
-    this.setState({ isModalVisible: true });
+  const Buy = () => {
+    if (summ <= 3000) setState(INITIAL_STATE);
+    setСartValue(0);
+    setSumm(0);
+    setIsModalVisible(true);
   };
 
-  getCartValue = () => this.state.cartValue;
+  const addingInCartSum = (summInCart) => setСartValue(cartValue + +summInCart);
 
-  addingInCartSum = (summInCart) => {
-    this.setState({
-      cartValue: { value: +this.getCartValue().value + +summInCart },
-    });
-  };
-
-  timer() {
-    const { timer } = this.state;
-    if (timer !== 1)
-      this.setState((prevState) => ({
-        timer: prevState.timer - 1,
-      }));
-    else {
-      this.setState((prevState) => ({
-        timer: prevState.timer - 1,
-      }));
-      this.cleanCart();
-      clearInterval(this.timerID);
-    }
-  }
-
-  render() {
-    return (
-      <div className={styles.market}>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              exact
-              path=""
-              element={
-                <ProductList
-                  products={this.props.products}
-                  // cart={this.props.cart}
-                  addInCart={this.addInCart}
-                  addingInCartSum={this.addingInCartSum}
-                />
-              }
-            />
-            <Route
-              exact
-              path="/cart"
-              element={
-                <Cart
-                  inCart={this.state}
-                  cleanCart={this.cleanCart}
-                  Buy={this.Buy}
-                  addingInCartSum={this.addingInCartSum}
-                />
-              }
-            />
-          </Routes>
-          <Nav
-            state={this.state}
-            cleanCart={this.cleanCart}
-            visibleModal={this.visibleModal}
-            closeMessage={this.closeMessage}
-            startTimer={this.startTimer}
-            stopTimer={this.stopTimer}
-            timerSet={this.timerSet}
+  return (
+    <div className={styles.market}>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="" element={<Main />} />
+          <Route
+            exact
+            path="/market"
+            element={<ProductList products={products} addInCart={addInCart} addingInCartSum={addingInCartSum} />}
           />
-          {this.state.isModalVisible && (
-            <Modal closeMessage={this.closeMessage}>
-              {this.state.summ < 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
-            </Modal>
-          )}
-        </BrowserRouter>
-      </div>
-    );
-  }
-}
+          <Route
+            exact
+            path="/cart"
+            element={
+              <Cart inCart={state} cleanCart={cleanCart} Buy={Buy} addingInCartSum={addingInCartSum} summ={summ} />
+            }
+          />
+        </Routes>
+        <Nav
+          cartValue={cartValue}
+          cleanCart={cleanCart}
+          visibleModal={visibleModal}
+          closeMessage={closeMessage}
+          summ={summ}
+        />
+        {isModalVisible && (
+          <Modal closeMessage={closeMessage}>
+            {summ < 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
+          </Modal>
+        )}
+      </BrowserRouter>
+    </div>
+  );
+};
 
 Market.propTypes = {
   products: PropTypes.arrayOf(
@@ -148,5 +101,4 @@ Market.propTypes = {
       cost: PropTypes.number,
     }),
   ).isRequired,
-  // cart: PropTypes.element.isRequired,
 };

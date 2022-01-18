@@ -1,62 +1,43 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './countdown.module.css';
 
-export class Countdown extends React.Component {
-  componentDidMount() {
-    const { startTimer, timerSet } = this.props;
-    timerSet();
-    startTimer();
-  }
+export const Countdown = ({ cleanCart }) => {
+  const [count, setCount] = useState(30);
+  const timerIdRef = useRef();
 
-  componentWillUnmount() {
-    const { stopTimer } = this.props;
-    stopTimer();
-  }
+  useEffect(() => {
+    if (count === 0) {
+      cleanCart();
+      clearInterval(timerIdRef.current);
+    }
+  }, [count, cleanCart]);
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      setCount((prevCount) => prevCount - 1);
+      if (count === 1) {
+        cleanCart();
+      }
+    }, 1000);
+    timerIdRef.current = timerId;
+    return () => clearInterval(timerIdRef.current);
+  }, []);
 
-  createButyTimers = (num) => {
+  const createButyTimers = (num) => {
     if (num < 10) return `0${num}`;
     return num;
   };
 
-  render() {
-    const { state } = this.props;
-    return (
-      <div className={styles.countWrapper}>
-        <span className={styles.timer}>{this.createButyTimers(Math.floor(state.timer / 60))}</span>
-        <span className={styles.timer}>:</span>
-        <span className={styles.timer}>{this.createButyTimers(state.timer % 60)}</span>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.countWrapper}>
+      <span className={styles.timer}>{createButyTimers(Math.floor(count / 60))}</span>
+      <span className={styles.timer}>:</span>
+      <span className={styles.timer}>{createButyTimers(count % 60)}</span>
+    </div>
+  );
+};
 
 Countdown.propTypes = {
-  state: PropTypes.shape({
-    tv: PropTypes.shape({
-      value: PropTypes.number,
-      cost: PropTypes.number,
-      image: PropTypes.string,
-    }),
-    fridge: PropTypes.shape({
-      value: PropTypes.number,
-      cost: PropTypes.number,
-      image: PropTypes.string,
-    }),
-    washingMashine: PropTypes.shape({
-      value: PropTypes.number,
-      cost: PropTypes.number,
-      image: PropTypes.string,
-    }),
-    cartValue: PropTypes.shape({
-      value: PropTypes.number,
-    }),
-    isModalVisible: PropTypes.bool.isRequired,
-    summ: PropTypes.number.isRequired,
-    timer: PropTypes.number.isRequired,
-  }).isRequired,
-  startTimer: PropTypes.func.isRequired,
-  stopTimer: PropTypes.func.isRequired,
-  timerSet: PropTypes.func.isRequired,
+  cleanCart: PropTypes.func.isRequired,
 };

@@ -1,5 +1,4 @@
-/* eslint-disable react/destructuring-assignment */
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './product.module.css';
@@ -8,13 +7,23 @@ const INITIAL_STATE = { value: 0, cost: 0, image: '' };
 
 export const Product = ({ product, addInCart, addingInCartSum }) => {
   const [marketProduct, setMarketProduct] = useState(INITIAL_STATE);
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  useEffect(() => {
+    if (marketProduct.value > 0) {
+      setIsDisabled(false);
+    } else setIsDisabled(true);
+  }, [marketProduct.value]);
 
   const handleChange = (e) => {
-    setMarketProduct({
-      value: e.target.value,
-      cost: +e.target.value * product.cost,
-      image: product.imgSrc,
-    });
+    if (e.target.value >= 0) {
+      setIsDisabled(false);
+      setMarketProduct({
+        value: e.target.value,
+        cost: +e.target.value * product.cost,
+        image: product.imgSrc,
+      });
+    } else setIsDisabled(true);
   };
 
   const buttonClick = () => {
@@ -44,6 +53,7 @@ export const Product = ({ product, addInCart, addingInCartSum }) => {
         onClick={() => {
           buttonClick();
         }}
+        disabled={isDisabled}
       >
         В корзину
       </button>
