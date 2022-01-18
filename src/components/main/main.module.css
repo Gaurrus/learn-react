@@ -9,3 +9,14 @@
   font-size: 52px;
   font-weight: 900;
 }
+
+.img {
+  max-width: 200px;
+}
+
+.imgWrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 40px;
+  align-items: flex-end;
+}

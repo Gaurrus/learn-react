@@ -47,10 +47,12 @@ export const Market = ({ products }) => {
   };
 
   const Buy = () => {
-    if (summ <= 3000) setState(INITIAL_STATE);
-    setСartValue(0);
-    setSumm(0);
     setIsModalVisible(true);
+    if (summ <= 3000) {
+      setState(INITIAL_STATE);
+      setСartValue(0);
+      setSumm(0);
+    }
   };
 
   const addingInCartSum = (summInCart) => setСartValue(cartValue + +summInCart);
@@ -59,7 +61,7 @@ export const Market = ({ products }) => {
     <div className={styles.market}>
       <BrowserRouter>
         <Routes>
-          <Route exact path="" element={<Main />} />
+          <Route exact path="" element={<Main products={products} />} />
           <Route
             exact
             path="/market"
@@ -82,7 +84,7 @@ export const Market = ({ products }) => {
         />
         {isModalVisible && (
           <Modal closeMessage={closeMessage}>
-            {summ < 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
+            {summ <= 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
           </Modal>
         )}
       </BrowserRouter>
