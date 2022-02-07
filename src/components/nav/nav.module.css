@@ -21,3 +21,7 @@
 .navList li {
   margin: 0;
 }
+
+.navList li:last-of-type {
+  align-self: center;
+}

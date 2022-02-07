@@ -1,1 +1,1 @@
-export { Market } from "./market";
+export { Market } from './market';

@@ -1,60 +1,75 @@
-import React from "react";
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-import styles from "./product.module.css";
+import styles from './product.module.css';
 
-const INITIAL_STATE = { value: '0', cost: '0', image: '' }
+const INITIAL_STATE = { value: 0, cost: 0, image: '' };
 
-export class Product extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = INITIAL_STATE
-    this.handleChange = this.handleChange.bind(this)
-    this.buttonClick = this.buttonClick.bind(this)
-  }
+export const Product = ({ product, addInCart, addingInCartSum }) => {
+  const [marketProduct, setMarketProduct] = useState(INITIAL_STATE);
+  const [isDisabled, setIsDisabled] = useState(true);
 
-  handleChange = (e) => {
-    this.setState({
-      value: e.target.value, cost: +e.target.value * this.props.product.cost, image: this.props.product.imgSrc
-    })
-  }
+  useEffect(() => {
+    if (marketProduct.value > 0) {
+      setIsDisabled(false);
+    } else setIsDisabled(true);
+  }, [marketProduct.value]);
 
-  buttonClick = () => {
-    this.props.addInCart(this.props.product.id, +this.state.value, this.state.cost, this.state.image)
-    this.props.addingInCartSum(+this.state.value);
-    this.setState(INITIAL_STATE)
-  }
+  const handleChange = (e) => {
+    if (e.target.value >= 0) {
+      setIsDisabled(false);
+      setMarketProduct({
+        value: e.target.value,
+        cost: +e.target.value * product.cost,
+        image: product.imgSrc,
+      });
+    } else setIsDisabled(true);
+  };
 
-  render() {
-    const product = this.props.product;
-    return (
-      <div className={styles.productCard}>
-        <div>{product.title}</div>
-        <div>{product.description}</div>
-        <img
-          className={styles.img}
-          src={product.imgSrc}
-          alt={`Фото - ${product.title}`}
-        />
-        <span>{product.cost} за</span>
-        <input
+  const buttonClick = () => {
+    addInCart(product.id, +marketProduct.value, marketProduct.cost, marketProduct.image);
+    addingInCartSum(+marketProduct.value);
+    setMarketProduct(INITIAL_STATE);
+  };
+
+  return (
+    <div className={styles.productCard}>
+      <div>{product.title}</div>
+      <div>{product.description}</div>
+      <img className={styles.img} src={product.imgSrc} alt={`Фото - ${product.title}`} />
+      <span>{product.cost} за</span>
+      <input
         className={styles.input}
-          name={product.id}
-          type="number"
-          value={this.state.value}
-          onChange={this.handleChange}
+        name={product.id}
+        type="number"
+        value={marketProduct.value}
+        onChange={handleChange}
+      />
 
-        />
+      <span>{marketProduct.cost} зайчиков</span>
+      <button
+        type="button"
+        className={styles.button}
+        onClick={() => {
+          buttonClick();
+        }}
+        disabled={isDisabled}
+      >
+        В корзину
+      </button>
+    </div>
+  );
+};
 
-        <span>{this.state.cost} зайчиков</span>
-        <button className={styles.button} onClick={() => {
-          this.buttonClick();
-          
-        }
-
-        }>В корзину</button>
-
-
-      </div>
-    );
-  }
-}
+Product.propTypes = {
+  product: PropTypes.shape({
+    title: PropTypes.string,
+    id: PropTypes.string,
+    description: PropTypes.string,
+    imgSrc: PropTypes.string,
+    key: PropTypes.number,
+    cost: PropTypes.number,
+  }).isRequired,
+  addInCart: PropTypes.func.isRequired,
+  addingInCartSum: PropTypes.func.isRequired,
+};

@@ -1,100 +1,106 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import { ProductList } from "../product-list";
-import { Nav } from "./../nav";
-import { Modal } from "./../modal";
-import { Cart } from "./../cart";
+import { ProductList } from '../product-list';
+import { Nav } from '../nav';
+import { Modal } from '../modal';
+import { Cart } from '../cart';
+import { Main } from '../main';
 
-import styles from "./market.module.css";
+import styles from './market.module.css';
 
 const INITIAL_STATE = {
-  tv: { value: "0", cost: "0", image: "" },
-  fridge: { value: "0", cost: "0", image: "" },
-  washingMashine: { value: "0", cost: "0", image: "" },
-  cartValue: { value: "" },
-  isModalVisible: false,
-  summ: 0,
+  tv: { value: 0, cost: 0, image: '' },
+  fridge: { value: 0, cost: 0, image: '' },
+  washingMashine: { value: 0, cost: 0, image: '' },
 };
 
-export class Market extends React.Component {
-  constructor() {
-    super();
-    this.state = INITIAL_STATE;
-  }
+export const Market = ({ products }) => {
+  const [summ, setSumm] = useState(0);
+  const [state, setState] = useState(INITIAL_STATE);
+  const [cartValue, setСartValue] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  addInCart = (name, value, cost, image) => {
-    this.setState({
+  const visibleModal = () => setIsModalVisible(true);
+
+  const addInCart = (name, value, cost, image) => {
+    setState((prevState) => ({
+      ...prevState,
       [name]: {
-        value: +value + +this.state[name].value,
-        cost: +this.state[name].cost + cost,
+        value: +value + +state[name].value,
+        cost: +state[name].cost + cost,
         image: image,
       },
-      summ: this.state.summ + cost,
-    });
+    }));
+    setSumm((prevSumm) => prevSumm + cost);
   };
 
-  cleanCart = () => {
-    this.setState(INITIAL_STATE);
+  const cleanCart = () => {
+    setState(INITIAL_STATE);
+    setСartValue(0);
+    setSumm(0);
   };
 
-  closeMessage = () => {
-    this.setState({ isModalVisible: false });
+  const closeMessage = () => {
+    setIsModalVisible(false);
   };
 
-  Buy = () => {
-    if (this.state.summ <= 3000) this.setState(INITIAL_STATE);
-    this.setState({ isModalVisible: true });
+  const Buy = () => {
+    setIsModalVisible(true);
+    if (summ <= 3000) {
+      setState(INITIAL_STATE);
+      setСartValue(0);
+      setSumm(0);
+    }
   };
 
-  addingInCartSum = (summInCart) => {
-    this.setState({
-      cartValue: { value: +this.state.cartValue.value + +summInCart },
-    });
-  };
+  const addingInCartSum = (summInCart) => setСartValue(cartValue + +summInCart);
 
-  render() {
-    return (
-      <div className={styles.market}>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              exact
-              path=""
-              element={
-                <ProductList
-                  products={this.props.products}
-                  cart={this.props.cart}
-                  addInCart={this.addInCart}
-                  addingInCartSum={this.addingInCartSum}
-                />
-              }
-            />
-            <Route
-              exact
-              path="/cart"
-              element={
-                <Cart
-                  inCart={this.state}
-                  cleanCart={this.cleanCart}
-                  Buy={this.Buy}
-                  addingInCartSum={this.addingInCartSum}
-                />
-              }
-            />
-          </Routes>
-          <Nav state={this.state} />
-          {this.state.isModalVisible && (
-            <Modal closeMessage={this.closeMessage}>
-              {this.state.summ < 3000 ? (
-                <div>Поздравляем с покупками!</div>
-              ) : (
-                <div>Не достаточно средств</div>
-              )}
-            </Modal>
-          )}
-        </BrowserRouter>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.market}>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="" element={<Main products={products} />} />
+          <Route
+            exact
+            path="/market"
+            element={<ProductList products={products} addInCart={addInCart} addingInCartSum={addingInCartSum} />}
+          />
+          <Route
+            exact
+            path="/cart"
+            element={
+              <Cart inCart={state} cleanCart={cleanCart} Buy={Buy} addingInCartSum={addingInCartSum} summ={summ} />
+            }
+          />
+        </Routes>
+        <Nav
+          cartValue={cartValue}
+          cleanCart={cleanCart}
+          visibleModal={visibleModal}
+          closeMessage={closeMessage}
+          summ={summ}
+        />
+        {isModalVisible && (
+          <Modal closeMessage={closeMessage}>
+            {summ <= 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
+          </Modal>
+        )}
+      </BrowserRouter>
+    </div>
+  );
+};
+
+Market.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      id: PropTypes.string,
+      description: PropTypes.string,
+      imgSrc: PropTypes.string,
+      key: PropTypes.number,
+      cost: PropTypes.number,
+    }),
+  ).isRequired,
+};
