@@ -14,8 +14,6 @@ import { marketReducer } from '../../store/products-state/index';
 import { buyProducts, cleanMarket } from '../../store/products-state/actions';
 
 export const Market = ({ products }) => {
-  // const [summ, setSumm] = useState(0);
-  // const [state, setState] = useState(INITIAL_STATE);
   const [state, dispatch] = useReducer(marketReducer, initialMarketState);
   const [cartValue, setСartValue] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -24,13 +22,11 @@ export const Market = ({ products }) => {
 
   const addInCart = (name, value, cost, image) => {
     dispatch(buyProducts({ name, value, cost, image }));
-    // dispatch((prevSumm) => prevSumm + cost);
   };
 
   const cleanCart = () => {
     dispatch(cleanMarket());
     setСartValue(0);
-    // dispatch({ summ: 0 });
   };
 
   const closeMessage = () => {
@@ -42,7 +38,6 @@ export const Market = ({ products }) => {
     if (state.summ <= 3000) {
       dispatch(cleanMarket());
       setСartValue(0);
-      // dispatch({ summ: 0 });
     }
   };
 
