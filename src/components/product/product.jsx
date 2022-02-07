@@ -1,35 +1,40 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
-import styles from './product.module.css';
+import { productReducer } from '../../store/product-item-state/index';
+import { initialProductState } from '../../store/product-item-state/initial-state';
 
-const INITIAL_STATE = { value: 0, cost: 0, image: '' };
+import styles from './product.module.css';
+import { addProduct, clearProduct } from '../../store/product-item-state/actions';
 
 export const Product = ({ product, addInCart, addingInCartSum }) => {
-  const [marketProduct, setMarketProduct] = useState(INITIAL_STATE);
   const [isDisabled, setIsDisabled] = useState(true);
 
+  const [{ value, cost, image }, dispatch] = useReducer(productReducer, initialProductState);
+
   useEffect(() => {
-    if (marketProduct.value > 0) {
+    if (value > 0) {
       setIsDisabled(false);
     } else setIsDisabled(true);
-  }, [marketProduct.value]);
+  }, [value]);
 
   const handleChange = (e) => {
     if (e.target.value >= 0) {
       setIsDisabled(false);
-      setMarketProduct({
-        value: e.target.value,
-        cost: +e.target.value * product.cost,
-        image: product.imgSrc,
-      });
+      dispatch(
+        addProduct({
+          value: e.target.value,
+          cost: +e.target.value * product.cost,
+          image: product.imgSrc,
+        }),
+      );
     } else setIsDisabled(true);
   };
 
   const buttonClick = () => {
-    addInCart(product.id, +marketProduct.value, marketProduct.cost, marketProduct.image);
-    addingInCartSum(+marketProduct.value);
-    setMarketProduct(INITIAL_STATE);
+    addInCart(product.id, +value, +cost, image);
+    addingInCartSum(+value);
+    dispatch(clearProduct());
   };
 
   return (
@@ -38,15 +43,9 @@ export const Product = ({ product, addInCart, addingInCartSum }) => {
       <div>{product.description}</div>
       <img className={styles.img} src={product.imgSrc} alt={`Фото - ${product.title}`} />
       <span>{product.cost} за</span>
-      <input
-        className={styles.input}
-        name={product.id}
-        type="number"
-        value={marketProduct.value}
-        onChange={handleChange}
-      />
+      <input className={styles.input} name={product.id} type="number" value={value} onChange={handleChange} />
 
-      <span>{marketProduct.cost} зайчиков</span>
+      <span>{cost} зайчиков</span>
       <button
         type="button"
         className={styles.button}

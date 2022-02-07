@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -9,37 +9,28 @@ import { Cart } from '../cart';
 import { Main } from '../main';
 
 import styles from './market.module.css';
-
-const INITIAL_STATE = {
-  tv: { value: 0, cost: 0, image: '' },
-  fridge: { value: 0, cost: 0, image: '' },
-  washingMashine: { value: 0, cost: 0, image: '' },
-};
+import { initialMarketState } from '../../store/products-state/initial-state';
+import { marketReducer } from '../../store/products-state/index';
+import { buyProducts, cleanMarket } from '../../store/products-state/actions';
 
 export const Market = ({ products }) => {
-  const [summ, setSumm] = useState(0);
-  const [state, setState] = useState(INITIAL_STATE);
+  // const [summ, setSumm] = useState(0);
+  // const [state, setState] = useState(INITIAL_STATE);
+  const [state, dispatch] = useReducer(marketReducer, initialMarketState);
   const [cartValue, setСartValue] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const visibleModal = () => setIsModalVisible(true);
 
   const addInCart = (name, value, cost, image) => {
-    setState((prevState) => ({
-      ...prevState,
-      [name]: {
-        value: +value + +state[name].value,
-        cost: +state[name].cost + cost,
-        image: image,
-      },
-    }));
-    setSumm((prevSumm) => prevSumm + cost);
+    dispatch(buyProducts({ name, value, cost, image }));
+    // dispatch((prevSumm) => prevSumm + cost);
   };
 
   const cleanCart = () => {
-    setState(INITIAL_STATE);
+    dispatch(cleanMarket());
     setСartValue(0);
-    setSumm(0);
+    // dispatch({ summ: 0 });
   };
 
   const closeMessage = () => {
@@ -48,10 +39,10 @@ export const Market = ({ products }) => {
 
   const Buy = () => {
     setIsModalVisible(true);
-    if (summ <= 3000) {
-      setState(INITIAL_STATE);
+    if (state.summ <= 3000) {
+      dispatch(cleanMarket());
       setСartValue(0);
-      setSumm(0);
+      // dispatch({ summ: 0 });
     }
   };
 
@@ -71,7 +62,13 @@ export const Market = ({ products }) => {
             exact
             path="/cart"
             element={
-              <Cart inCart={state} cleanCart={cleanCart} Buy={Buy} addingInCartSum={addingInCartSum} summ={summ} />
+              <Cart
+                inCart={state}
+                cleanCart={cleanCart}
+                Buy={Buy}
+                addingInCartSum={addingInCartSum}
+                summ={state.summ}
+              />
             }
           />
         </Routes>
@@ -80,11 +77,11 @@ export const Market = ({ products }) => {
           cleanCart={cleanCart}
           visibleModal={visibleModal}
           closeMessage={closeMessage}
-          summ={summ}
+          summ={state.summ}
         />
         {isModalVisible && (
           <Modal closeMessage={closeMessage}>
-            {summ <= 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
+            {state.summ <= 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
           </Modal>
         )}
       </BrowserRouter>
