@@ -1,7 +1,7 @@
 import { initialMarketState } from './initial-state';
 import { TYPES } from '../action-types';
 
-export const marketReducer = (prevState, action) => {
+export const marketReducer = (prevState = initialMarketState, action = {}) => {
   switch (action.type) {
     case TYPES.BUY_PRODUCTS: {
       const { name, value, cost, image } = action.payload;
@@ -18,6 +18,6 @@ export const marketReducer = (prevState, action) => {
     case TYPES.CLEAR_CART:
       return initialMarketState;
     default:
-      throw new Error();
+      return prevState;
   }
 };

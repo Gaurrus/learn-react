@@ -1,6 +1,7 @@
 import { useState, useReducer } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import { ProductList } from '../product-list';
 import { Nav } from '../nav';
@@ -9,12 +10,10 @@ import { Cart } from '../cart';
 import { Main } from '../main';
 
 import styles from './market.module.css';
-import { initialMarketState } from '../../store/products-state/initial-state';
-import { marketReducer } from '../../store/products-state/index';
 import { buyProducts, cleanMarket } from '../../store/products-state/actions';
 
 export const Market = ({ products }) => {
-  const [state, dispatch] = useReducer(marketReducer, initialMarketState);
+  const dispatch = useDispatch();
   const [cartValue, setСartValue] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -56,24 +55,10 @@ export const Market = ({ products }) => {
           <Route
             exact
             path="/cart"
-            element={
-              <Cart
-                inCart={state}
-                cleanCart={cleanCart}
-                Buy={Buy}
-                addingInCartSum={addingInCartSum}
-                summ={state.summ}
-              />
-            }
+            element={<Cart cleanCart={cleanCart} Buy={Buy} addingInCartSum={addingInCartSum} />}
           />
         </Routes>
-        <Nav
-          cartValue={cartValue}
-          cleanCart={cleanCart}
-          visibleModal={visibleModal}
-          closeMessage={closeMessage}
-          summ={state.summ}
-        />
+        <Nav cartValue={cartValue} cleanCart={cleanCart} visibleModal={visibleModal} closeMessage={closeMessage} />
         {isModalVisible && (
           <Modal closeMessage={closeMessage}>
             {state.summ <= 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
