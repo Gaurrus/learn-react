@@ -1,41 +1,41 @@
 import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { productSelector } from '../../selectors';
+import { marketSelector, productSelector } from '../../selectors';
 
 import styles from './cart.module.css';
 
 export const Cart = ({ cleanCart, Buy }) => {
-  const { tv, fridge, washingMashine, summ } = useSelector(productSelector);
+  const state = useSelector(marketSelector);
   return (
     <div className={styles.cart}>
-      {tv.value >= 1 ? (
+      {state.tv.value >= 1 ? (
         <div className={styles.cartItem}>
-          <img src={tv.image} alt="img" className={styles.img} />
+          <img src={state.tv.image} alt="img" className={styles.img} />
           <span>
-            {tv.value}шт. - на сумму: {tv.cost} зай
+            {state.tv.value}шт. - на сумму: {state.tv.cost} зай
           </span>
         </div>
       ) : (
         <div> </div>
       )}
 
-      {fridge.value >= 1 ? (
+      {state.fridge.value >= 1 ? (
         <div className={styles.cartItem}>
-          <img src={fridge.image} alt="img" className={styles.img} />
+          <img src={state.fridge.image} alt="img" className={styles.img} />
           <span>
-            {fridge.value}шт. - на сумму: {fridge.cost} зай
+            {state.fridge.value}шт. - на сумму: {state.fridge.cost} зай
           </span>
         </div>
       ) : (
         <div />
       )}
 
-      {washingMashine.value >= 1 ? (
+      {state.washingMashine.value >= 1 ? (
         <div className={styles.cartItem}>
-          <img src={washingMashine.image} alt="img" className={styles.img} />
+          <img src={state.washingMashine.image} alt="img" className={styles.img} />
           <span>
-            {washingMashine.value}шт. - на сумму: {washingMashine.cost} зай
+            {state.washingMashine.value}шт. - на сумму: {state.washingMashine.cost} зай
           </span>
         </div>
       ) : (
@@ -51,7 +51,7 @@ export const Cart = ({ cleanCart, Buy }) => {
         </button>
       </div>
 
-      {summ ? <span>Общая сумма: {summ}</span> : <span />}
+      {state.summ ? <span>Общая сумма: {state.summ}</span> : <span />}
     </div>
   );
 };

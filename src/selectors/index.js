@@ -1,3 +1,3 @@
 export const productSelector = (state) => state.productReducer;
 
-export const marketSelector = (state, name) => state.marketReducer[name];
+export const marketSelector = (state) => state.marketReducer;

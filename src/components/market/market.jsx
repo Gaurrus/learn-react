@@ -21,7 +21,7 @@ export const Market = ({ products }) => {
   const [cartValue, setСartValue] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { state } = useSelector(marketSelector);
+  const state = useSelector(marketSelector);
 
   const visibleModal = () => setIsModalVisible(true);
 
