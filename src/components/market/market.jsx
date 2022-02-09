@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { useState, useReducer } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -8,15 +9,19 @@ import { Modal } from '../modal';
 import { Cart } from '../cart';
 import { Main } from '../main';
 
-import styles from './market.module.css';
+import { marketSelector } from '../../selectors';
 import { initialMarketState } from '../../store/market-state/initial-state';
 import { marketReducer } from '../../store/market-state/index';
 import { buyProducts, cleanMarket } from '../../store/market-state/actions';
 
+import styles from './market.module.css';
+
 export const Market = ({ products }) => {
-  const [state, dispatch] = useReducer(marketReducer, initialMarketState);
+  const dispatch = useDispatch();
   const [cartValue, setСartValue] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const { state } = useSelector(marketSelector);
 
   const visibleModal = () => setIsModalVisible(true);
 

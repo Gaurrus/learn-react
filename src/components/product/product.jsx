@@ -1,16 +1,21 @@
 import { useState, useEffect, useReducer } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { productReducer } from '../../store/product-state/index';
 import { initialProductState } from '../../store/product-state/initial-state';
 
-import styles from './product.module.css';
 import { addProduct, clearProduct } from '../../store/product-state/actions';
+import { productSelector } from '../../selectors';
+
+import styles from './product.module.css';
 
 export const Product = ({ product, addInCart, addingInCartSum }) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const [{ value, cost, image }, dispatch] = useReducer(productReducer, initialProductState);
+  const dispatch = useDispatch();
+
+  const { value, cost, image } = useSelector(productSelector);
 
   useEffect(() => {
     if (value > 0) {
