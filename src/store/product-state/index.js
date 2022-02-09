@@ -14,6 +14,6 @@ export const productReducer = (prevState = initialProductState, action = {}) => 
     case TYPES.CLEAR_PRODUCT:
       return initialProductState;
     default:
-      throw prevState;
+      return prevState;
   }
 };

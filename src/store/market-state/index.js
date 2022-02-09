@@ -18,6 +18,6 @@ export const marketReducer = (prevState = initialMarketState, action = {}) => {
     case TYPES.CLEAR_CART:
       return initialMarketState;
     default:
-      throw prevState;
+      return prevState;
   }
 };
