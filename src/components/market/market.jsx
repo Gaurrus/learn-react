@@ -9,9 +9,9 @@ import { Cart } from '../cart';
 import { Main } from '../main';
 
 import styles from './market.module.css';
-import { initialMarketState } from '../../store/products-state/initial-state';
-import { marketReducer } from '../../store/products-state/index';
-import { buyProducts, cleanMarket } from '../../store/products-state/actions';
+import { initialMarketState } from '../../store/market-state/initial-state';
+import { marketReducer } from '../../store/market-state/index';
+import { buyProducts, cleanMarket } from '../../store/market-state/actions';
 
 export const Market = ({ products }) => {
   const [state, dispatch] = useReducer(marketReducer, initialMarketState);
