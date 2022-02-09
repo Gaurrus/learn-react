@@ -1,9 +1,9 @@
-import { combineRedicer } from 'redux';
+import { combineReducers } from 'redux';
 
-import { productReducer } from './product-item-state';
-import { marketReducer } from './products-state';
+import { productReducer } from './product';
+import { marketReducer } from './market';
 
-export const reducer = combineRedicer({
+export const reducer = combineReducers({
   productReducer,
   marketReducer,
 });

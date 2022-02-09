@@ -1,11 +1,11 @@
 import { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
-import { productReducer } from '../../store/product-item-state/index';
-import { initialProductState } from '../../store/product-item-state/initial-state';
+import { productReducer } from '../../store/product/index';
+import { initialProductState } from '../../store/product/initial-state';
 
 import styles from './product.module.css';
-import { addProduct, clearProduct } from '../../store/product-item-state/actions';
+import { addProduct, clearProduct } from '../../store/product/actions';
 
 export const Product = ({ product, addInCart, addingInCartSum }) => {
   const [isDisabled, setIsDisabled] = useState(true);
