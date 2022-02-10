@@ -22,7 +22,7 @@ export const Countdown = ({ cleanCart }) => {
     }, 1000);
     timerIdRef.current = timerId;
     return () => clearInterval(timerIdRef.current);
-  }, [count, cleanCart]);
+  }, []);
 
   const createButyTimers = (num) => {
     if (num < 10) return `0${num}`;
