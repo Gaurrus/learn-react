@@ -4,11 +4,14 @@ import { TYPES } from '../action-types';
 export const productReducer = (prevState = initialProductState, action = {}) => {
   switch (action.type) {
     case TYPES.ADD_IN_CART: {
-      const { value, cost, image } = action.payload;
+      const { name, value, cost, image } = action.payload;
       return {
-        value,
-        cost,
-        image,
+        ...prevState,
+        [name]: {
+          value,
+          cost,
+          image,
+        },
       };
     }
     case TYPES.CLEAR_PRODUCT:

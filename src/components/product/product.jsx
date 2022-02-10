@@ -1,21 +1,18 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { productReducer } from '../../store/product-state/index';
-import { initialProductState } from '../../store/product-state/initial-state';
 
 import { addProduct, clearProduct } from '../../store/product-state/actions';
 import { productSelector } from '../../selectors';
 
 import styles from './product.module.css';
 
-export const Product = ({ product, addInCart, addingInCartSum }) => {
+export const Product = ({ product, addInCart, addingInCartSum, name }) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const dispatch = useDispatch();
 
-  const { value, cost, image } = useSelector(productSelector);
+  const { value, cost, image } = useSelector((state) => productSelector(state, name));
 
   useEffect(() => {
     if (value > 0) {
@@ -31,13 +28,14 @@ export const Product = ({ product, addInCart, addingInCartSum }) => {
           value: e.target.value,
           cost: +e.target.value * product.cost,
           image: product.imgSrc,
+          name,
         }),
       );
     } else setIsDisabled(true);
   };
 
   const buttonClick = () => {
-    addInCart(product.id, +value, +cost, image);
+    addInCart(name, +value, +cost, image);
     addingInCartSum(+value);
     dispatch(clearProduct());
   };
@@ -76,4 +74,5 @@ Product.propTypes = {
   }).isRequired,
   addInCart: PropTypes.func.isRequired,
   addingInCartSum: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
 };

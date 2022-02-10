@@ -6,7 +6,13 @@ import styles from './product-list.module.css';
 export const ProductList = ({ products, addInCart, addingInCartSum }) => (
   <div className={styles.produsctList}>
     {products.map((product) => (
-      <Product key={product.key} product={product} addInCart={addInCart} addingInCartSum={addingInCartSum} />
+      <Product
+        key={product.key}
+        product={product}
+        addInCart={addInCart}
+        addingInCartSum={addingInCartSum}
+        name={product.id}
+      />
     ))}
   </div>
 );

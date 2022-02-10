@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, useReducer } from 'react';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -10,8 +10,7 @@ import { Cart } from '../cart';
 import { Main } from '../main';
 
 import { marketSelector } from '../../selectors';
-import { initialMarketState } from '../../store/market-state/initial-state';
-import { marketReducer } from '../../store/market-state/index';
+
 import { buyProducts, cleanMarket } from '../../store/market-state/actions';
 
 import styles from './market.module.css';

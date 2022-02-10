@@ -1,8 +1,9 @@
 .timer {
-    font-weight: 700;
-    font-size: 24px;
+  font-weight: 700;
+  font-size: 24px;
 }
 
 .countWrapper {
-    align-self: center;
+  align-self: center;
+  cursor: pointer;
 }
