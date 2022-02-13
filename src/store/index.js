@@ -1,9 +1,10 @@
-import { combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
+import marketReducer from './market-state';
+import productReducer from './product-state';
 
-import { productReducer } from './product-state/index';
-import { marketReducer } from './market-state/index';
-
-export const reducer = combineReducers({
-  productReducer,
-  marketReducer,
+export const store = configureStore({
+  reducer: {
+    marketReducer,
+    productReducer,
+  },
 });

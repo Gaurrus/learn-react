@@ -11,7 +11,7 @@ import { Main } from '../main';
 
 import { marketSelector } from '../../selectors';
 
-import { buyProducts, cleanMarket } from '../../store/market-state/actions';
+import { buyProducts, cleanMarket } from '../../store/market-state';
 
 import styles from './market.module.css';
 

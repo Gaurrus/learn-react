@@ -1,23 +1,21 @@
-import { initialMarketState } from './initial-state';
-import { TYPES } from '../action-types';
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit';
 
-export const marketReducer = (prevState = initialMarketState, action = {}) => {
-  switch (action.type) {
-    case TYPES.BUY_PRODUCTS: {
+import { initialMarketState } from './initial-state';
+
+const marketSlice = createSlice({
+  name: 'marketReducer',
+  initialState: initialMarketState,
+  reducers: {
+    buyProducts: (state, action) => {
       const { name, value, cost, image } = action.payload;
-      return {
-        ...prevState,
-        [name]: {
-          image: image,
-          cost: prevState[name].cost + cost,
-          value: prevState[name].value + value,
-        },
-        summ: prevState.summ + cost,
-      };
-    }
-    case TYPES.CLEAR_CART:
-      return initialMarketState;
-    default:
-      return prevState;
-  }
-};
+      state[name].cost += cost;
+      state[name].value += value;
+      state.summ += cost;
+    },
+    cleanMarket: () => initialMarketState,
+  },
+});
+
+export const { buyProducts, cleanMarket } = marketSlice.actions;
+export default marketSlice.reducer;

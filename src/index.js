@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { App } from './components/app';
 
-import { store } from './configure-store';
+import { store } from './store';
 
 import reportWebVitals from './reportWebVitals';
 
