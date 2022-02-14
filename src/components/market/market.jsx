@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -46,6 +46,8 @@ export const Market = ({ products }) => {
   };
 
   const addingInCartSum = (summInCart) => setСartValue(cartValue + +summInCart);
+
+  useEffect(() => dispatch(getStorage()), []);
 
   return (
     <div className={styles.market}>
