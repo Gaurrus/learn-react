@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { initialStorageState } from './initial-storage-state';
-import { getStorage } from './thunk';
+import { getData } from './thunk';
 
 const storageSlice = createSlice({
   name: 'storageReducer',
@@ -10,16 +10,16 @@ const storageSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getStorage.pending, (state) => {
+      .addCase(getData.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
         state.data = initialStorageState.data;
       })
-      .addCase(getStorage.fulfilled, (state, action) => {
+      .addCase(getData.fulfilled, (state, action) => {
         state.isLoading = false;
         state.data = action.payload;
       })
-      .addCase(getStorage.rejected, (state) => {
+      .addCase(getData.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
