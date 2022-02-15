@@ -9,9 +9,10 @@ import { Modal } from '../modal';
 import { Cart } from '../cart';
 import { Main } from '../main';
 
-import { marketSelector } from '../../selectors';
+import { marketSelector, storageSelector } from '../../selectors';
 
 import { buyProducts, cleanMarket } from '../../store/market-state';
+import { getStorage } from '../../store/storage-store/thunk';
 
 import styles from './market.module.css';
 
@@ -49,6 +50,8 @@ export const Market = ({ products }) => {
 
   useEffect(() => dispatch(getStorage()), []);
 
+  const storage = useSelector(storageSelector);
+
   return (
     <div className={styles.market}>
       <BrowserRouter>
@@ -57,7 +60,14 @@ export const Market = ({ products }) => {
           <Route
             exact
             path="/market"
-            element={<ProductList products={products} addInCart={addInCart} addingInCartSum={addingInCartSum} />}
+            element={
+              <ProductList
+                products={products}
+                addInCart={addInCart}
+                addingInCartSum={addingInCartSum}
+                storage={storage.data}
+              />
+            }
           />
           <Route
             exact

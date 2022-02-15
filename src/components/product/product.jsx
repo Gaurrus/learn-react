@@ -7,7 +7,7 @@ import { productSelector } from '../../selectors';
 
 import styles from './product.module.css';
 
-export const Product = ({ product, addInCart, addingInCartSum, name }) => {
+export const Product = ({ product, addInCart, addingInCartSum, name, storage }) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const dispatch = useDispatch();
@@ -15,13 +15,13 @@ export const Product = ({ product, addInCart, addingInCartSum, name }) => {
   const { value, cost, image } = useSelector((state) => productSelector(state, name));
 
   useEffect(() => {
-    if (value > 0) {
+    if (value > 0 && value <= storage[name]) {
       setIsDisabled(false);
     } else setIsDisabled(true);
   }, [value]);
 
   const handleChange = (e) => {
-    if (e.target.value >= 0) {
+    if (e.target.value >= 0 && e.target.value <= storage[name]) {
       setIsDisabled(false);
       dispatch(
         addProduct({
@@ -44,6 +44,7 @@ export const Product = ({ product, addInCart, addingInCartSum, name }) => {
     <div className={styles.productCard}>
       <div>{product.title}</div>
       <div>{product.description}</div>
+      <div>На складе - {storage[product.id]}шт.</div>
       <img className={styles.img} src={product.imgSrc} alt={`Фото - ${product.title}`} />
       <span>{product.cost} за</span>
       <input className={styles.input} name={product.id} type="number" value={value} onChange={handleChange} />
@@ -75,4 +76,9 @@ Product.propTypes = {
   addInCart: PropTypes.func.isRequired,
   addingInCartSum: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  storage: PropTypes.shape({
+    tv: PropTypes.number,
+    fridge: PropTypes.number,
+    washingmashine: PropTypes.number,
+  }).isRequired,
 };

@@ -2,20 +2,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { initialStorageState } from './initial-storage-state';
+import { getStorage } from './thunk';
 
-const marketSlice = createSlice({
-  name: 'marketReducer',
+const storageSlice = createSlice({
+  name: 'storageReducer',
   initialState: initialStorageState,
-  reducers: {
-    buyProducts: (state, action) => {
-      const { name, value, cost, image } = action.payload;
-      state[name].cost += cost;
-      state[name].value += value;
-      state.summ += cost;
-    },
-    cleanMarket: () => initialStorageState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getStorage.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.data = initialStorageState.data;
+      })
+      .addCase(getStorage.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.data = action.payload;
+      })
+      .addCase(getStorage.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      });
   },
 });
 
-export const { buyProducts, cleanMarket } = marketSlice.actions;
-export default marketSlice.reducer;
+export default storageSlice.reducer;

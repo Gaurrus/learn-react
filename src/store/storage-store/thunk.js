@@ -1,8 +1,9 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-export const getStorage = createAsyncThunk('storage/getStorage', () => (
+export const getStorage = createAsyncThunk('storage/getStorage', () =>
   axios
-    .get()
+    .get('./storage.json')
     .then((response) => response.data)
-    .catch((error) => console.log(error))
+    .catch((error) => error),
 );

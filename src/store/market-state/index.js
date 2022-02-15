@@ -11,6 +11,7 @@ const marketSlice = createSlice({
       const { name, value, cost, image } = action.payload;
       state[name].cost += cost;
       state[name].value += value;
+      state[name].image = image;
       state.summ += cost;
     },
     cleanMarket: () => initialMarketState,
