@@ -12,7 +12,6 @@ import { Main } from '../main';
 import { marketSelector, storageSelector } from '../../selectors';
 
 import { buyProducts, cleanMarket } from '../../store/market-state';
-import { getStorage } from '../../store/storage-store/thunk';
 
 import styles from './market.module.css';
 
@@ -48,7 +47,7 @@ export const Market = ({ products }) => {
 
   const addingInCartSum = (summInCart) => setСartValue(cartValue + +summInCart);
 
-  useEffect(() => dispatch(getStorage()), []);
+  useEffect(() => dispatch(getStorageRequest()), []);
 
   const storage = useSelector(storageSelector);
 
