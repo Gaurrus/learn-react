@@ -9,9 +9,9 @@ import { Modal } from '../modal';
 import { Cart } from '../cart';
 import { Main } from '../main';
 
-import { marketSelector, storageSelector } from '../../selectors';
-
+import { marketSelector, storageSagaSelector, storageSelector } from '../../selectors';
 import { buyProducts, cleanMarket } from '../../store/market-state';
+import { getStorageRequest } from '../../store/storage-store-saga';
 
 import styles from './market.module.css';
 
@@ -49,7 +49,7 @@ export const Market = ({ products }) => {
 
   useEffect(() => dispatch(getStorageRequest()), []);
 
-  const storage = useSelector(storageSelector);
+  const storage = useSelector(storageSagaSelector);
 
   return (
     <div className={styles.market}>

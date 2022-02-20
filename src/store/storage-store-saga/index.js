@@ -1,18 +1,28 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-import { initialStorageState } from './initial-storage-state';
+import { initialStorageSagaState } from './initial-storage-state';
 
-const storageSlice = createSlice({
-  name: 'storageReducer',
-  initialState: initialStorageState,
+const storageSagaSlice = createSlice({
+  name: 'storageSagaReducer',
+  initialState: initialStorageSagaState,
   reducers: {
     getStorageRequest: (state) => {
       state.isLoading = true;
       state.isError = false;
-      state.data = initialStorageState.data;
+      state.data = initialStorageSagaState.data;
+    },
+    getStorageSeccess: (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.data = action.payload;
+    },
+    getStorageError: (state) => {
+      state.isError = true;
     },
   },
 });
 
-export default storageSlice.reducer;
+export const { getStorageRequest, getStorageSeccess, getStorageError } = storageSagaSlice.actions;
+export default storageSagaSlice.reducer;
