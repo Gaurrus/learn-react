@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -40,10 +41,10 @@ export const Market = ({ products }) => {
 
   const Buy = () => {
     setIsModalVisible(true);
-    if (state.summ <= 3000) {
-      dispatch(cleanMarket());
-      setСartValue(0);
-    }
+    // if (state.summ <= 3000) {
+    //   dispatch(cleanMarket());
+    //   setСartValue(0);
+    // }
   };
 
   const addingInCartSum = (summInCart) => setСartValue(cartValue + +summInCart);
@@ -92,7 +93,7 @@ export const Market = ({ products }) => {
         />
         {isModalVisible && (
           <Modal closeMessage={closeMessage}>
-            {state.summ <= 3000 ? <SuccesForm /> : <div>Не достаточно средств</div>}
+            {state.summ <= 3000 ? <SuccesForm state={state} /> : <div>Не достаточно средств</div>}
           </Modal>
         )}
       </BrowserRouter>

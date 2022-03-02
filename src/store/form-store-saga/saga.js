@@ -1,11 +1,12 @@
+/* eslint-disable no-debugger */
 import axios from 'axios';
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { postFormRequest, postFormError, postFormSeccess } from '.';
+import { postFormRequest, postFormError, postFormSuccess } from '.';
 
-function* postFormWorker(values) {
+function* postFormWorker() {
   try {
-    yield call(axios.post, ['https://httpbin.org/post', values]);
-    yield put(postFormSeccess());
+    yield call(axios.post, 'https://httpbin.org/post');
+    yield put(postFormSuccess());
   } catch {
     yield put(postFormError());
   }

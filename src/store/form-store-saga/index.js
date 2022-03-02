@@ -4,19 +4,18 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { initialFromSagaState } from './initial-form-state';
 
-const fromSagaSlice = createSlice({
-  name: 'fromSagaReducer',
+const formSagaSlice = createSlice({
+  name: 'formSagaReducer',
   initialState: initialFromSagaState,
   reducers: {
-    postFormRequest: (state) => {
+    postFormRequest: (state, action) => {
       state.isLoading = true;
       state.isError = false;
-      state.data = initialFromSagaState.data;
+      state.data = action.payload;
     },
-    postFormSeccess: (state, action) => {
+    postFormSuccess: (state) => {
       state.isLoading = false;
       state.isError = false;
-      state.data = action.payload;
       console.log('успешно');
     },
     postFormError: (state) => {
@@ -25,5 +24,5 @@ const fromSagaSlice = createSlice({
   },
 });
 
-export const { postFormRequest, postFormSeccess, postFormError } = fromSagaSlice.actions;
-export default fromSagaSlice.reducer;
+export const { postFormRequest, postFormSuccess, postFormError } = formSagaSlice.actions;
+export default formSagaSlice.reducer;
