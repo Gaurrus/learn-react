@@ -8,6 +8,7 @@ import { Nav } from '../nav';
 import { Modal } from '../modal';
 import { Cart } from '../cart';
 import { Main } from '../main';
+import { SuccesForm } from '../succes-form';
 
 import { marketSelector, storageSagaSelector, storageSelector } from '../../selectors';
 import { buyProducts, cleanMarket } from '../../store/market-state';
@@ -91,7 +92,7 @@ export const Market = ({ products }) => {
         />
         {isModalVisible && (
           <Modal closeMessage={closeMessage}>
-            {state.summ <= 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
+            {state.summ <= 3000 ? <SuccesForm /> : <div>Не достаточно средств</div>}
           </Modal>
         )}
       </BrowserRouter>
