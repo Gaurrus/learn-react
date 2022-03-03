@@ -3,19 +3,10 @@ import axios from 'axios';
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { postFormRequest, postFormError, postFormSuccess } from '.';
 
-const postData = (values) =>
-  axios({
-    method: 'post',
-    url: 'https://httpbin.org/post',
-    data: {
-      name: 'name',
-      id: 'id',
-    },
-  });
-
-function* postFormWorker() {
+function* postFormWorker({ payload }) {
+  console.log(payload);
   try {
-    yield call(postData);
+    yield call(axios.post, 'https://httpbin.org/post', payload);
     yield put(postFormSuccess());
   } catch {
     yield put(postFormError());
