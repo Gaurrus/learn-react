@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { App } from './components/app';
 
+import 'antd/dist/antd.less';
 import { store } from './store';
 
 import reportWebVitals from './reportWebVitals';

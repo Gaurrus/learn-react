@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Modal } from 'antd';
 
 import { ProductList } from '../product-list';
 import { Nav } from '../nav';
-import { Modal } from '../modal';
 import { Cart } from '../cart';
 import { Main } from '../main';
 import { SuccesForm } from '../succes-form';
@@ -92,7 +92,7 @@ export const Market = ({ products }) => {
           summ={state.summ}
         />
         {isModalVisible && (
-          <Modal closeMessage={closeMessage}>
+          <Modal closeMessage={closeMessage} visible={isModalVisible} onCancel={closeMessage} footer={null}>
             {state.summ <= 3000 ? <SuccesForm state={state} /> : <div>Не достаточно средств</div>}
           </Modal>
         )}

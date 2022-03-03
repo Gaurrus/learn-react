@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
 
@@ -43,12 +44,12 @@ export const Cart = ({ cleanCart, Buy }) => {
       )}
 
       <div className={styles.buttonBlock}>
-        <button type="button" className={styles.button} onClick={cleanCart}>
+        <Button type="primary" className={styles.button} onClick={cleanCart}>
           Очистить корзину
-        </button>
-        <button type="button" className={styles.button} onClick={Buy}>
+        </Button>
+        <Button type="primary" className={styles.button} onClick={Buy}>
           Оформить покупку
-        </button>
+        </Button>
       </div>
 
       {state.summ ? <span>Общая сумма: {state.summ}</span> : <span />}

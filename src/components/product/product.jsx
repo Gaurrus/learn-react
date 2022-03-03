@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Button, InputNumber } from 'antd';
 
 import { addProduct, clearProduct } from '../../store/product-state';
 import { productSelector } from '../../selectors';
@@ -20,13 +21,13 @@ export const Product = ({ product, addInCart, addingInCartSum, name, storage }) 
     } else setIsDisabled(true);
   }, [value]);
 
-  const handleChange = (e) => {
-    if (e.target.value >= 0 && e.target.value <= storage[name]) {
+  const handleChange = () => {
+    if (value >= 0 && value <= storage[name]) {
       setIsDisabled(false);
       dispatch(
         addProduct({
-          value: e.target.value,
-          cost: +e.target.value * product.cost,
+          value: value,
+          cost: +value * product.cost,
           image: product.imgSrc,
           name,
         }),
@@ -47,11 +48,18 @@ export const Product = ({ product, addInCart, addingInCartSum, name, storage }) 
       <div>На складе - {storage[product.id]}шт.</div>
       <img className={styles.img} src={product.imgSrc} alt={`Фото - ${product.title}`} />
       <span>{product.cost} за</span>
-      <input className={styles.input} name={product.id} type="number" value={value} onChange={handleChange} />
+      <InputNumber
+        name={product.id}
+        type="number"
+        prefix="#"
+        value={value}
+        onChange={handleChange}
+        min={0}
+        defaultValue={0}
+      />
 
       <span>{cost} зайчиков</span>
-      <button
-        type="button"
+      <Button
         className={styles.button}
         onClick={() => {
           buttonClick();
@@ -59,7 +67,7 @@ export const Product = ({ product, addInCart, addingInCartSum, name, storage }) 
         disabled={isDisabled}
       >
         В корзину
-      </button>
+      </Button>
     </div>
   );
 };
