@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, InputNumber } from 'antd';
+import { Button, Image, InputNumber } from 'antd';
 
 import { addProduct, clearProduct } from '../../store/product-state';
 import { productSelector } from '../../selectors';
@@ -13,16 +13,16 @@ export const Product = ({ product, addInCart, addingInCartSum, name, storage }) 
 
   const dispatch = useDispatch();
 
-  const { value, cost, image } = useSelector((state) => productSelector(state, name));
+  const { value: valueState, cost, image } = useSelector((state) => productSelector(state, name));
 
   useEffect(() => {
-    if (value > 0 && value <= storage[name]) {
+    if (valueState > 0 && valueState <= storage[name]) {
       setIsDisabled(false);
     } else setIsDisabled(true);
-  }, [value]);
+  }, [valueState]);
 
-  const handleChange = () => {
-    if (value >= 0 && value <= storage[name]) {
+  const handleChange = (value) => {
+    if (valueState >= 0 && valueState <= storage[name]) {
       setIsDisabled(false);
       dispatch(
         addProduct({
@@ -36,8 +36,8 @@ export const Product = ({ product, addInCart, addingInCartSum, name, storage }) 
   };
 
   const buttonClick = () => {
-    addInCart(name, +value, +cost, image);
-    addingInCartSum(+value);
+    addInCart(name, +valueState, +cost, image);
+    addingInCartSum(+valueState);
     dispatch(clearProduct());
   };
 
@@ -46,13 +46,13 @@ export const Product = ({ product, addInCart, addingInCartSum, name, storage }) 
       <div>{product.title}</div>
       <div>{product.description}</div>
       <div>На складе - {storage[product.id]}шт.</div>
-      <img className={styles.img} src={product.imgSrc} alt={`Фото - ${product.title}`} />
+      <Image className={styles.img} src={product.imgSrc} alt={`Фото - ${product.title}`} />
       <span>{product.cost} за</span>
       <InputNumber
         name={product.id}
         type="number"
         prefix="#"
-        value={value}
+        value={valueState}
         onChange={handleChange}
         min={0}
         defaultValue={0}
