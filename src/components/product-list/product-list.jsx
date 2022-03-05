@@ -3,10 +3,17 @@ import { Product } from '../product';
 
 import styles from './product-list.module.css';
 
-export const ProductList = ({ products, addInCart, addingInCartSum }) => (
+export const ProductList = ({ products, addInCart, addingInCartSum, storage }) => (
   <div className={styles.produsctList}>
     {products.map((product) => (
-      <Product key={product.key} product={product} addInCart={addInCart} addingInCartSum={addingInCartSum} />
+      <Product
+        key={product.key}
+        product={product}
+        addInCart={addInCart}
+        addingInCartSum={addingInCartSum}
+        name={product.id}
+        storage={storage}
+      />
     ))}
   </div>
 );
@@ -24,4 +31,9 @@ ProductList.propTypes = {
   ).isRequired,
   addInCart: PropTypes.func.isRequired,
   addingInCartSum: PropTypes.func.isRequired,
+  storage: PropTypes.shape({
+    tv: PropTypes.number,
+    fridge: PropTypes.number,
+    washingmashine: PropTypes.number,
+  }).isRequired,
 };
