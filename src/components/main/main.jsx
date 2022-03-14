@@ -6,7 +6,7 @@ export const Main = ({ products }) => (
     <span className={styles.mainText}>Welcome!</span>
     <div className={styles.imgWrapper}>
       {products.map((product) => (
-        <img className={styles.img} src={product.imgSrc} alt="" />
+        <img key={product.id} className={styles.img} src={product.imgSrc} alt="" />
       ))}
     </div>
   </div>

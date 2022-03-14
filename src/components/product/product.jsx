@@ -1,54 +1,65 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Button, Image, InputNumber } from 'antd';
+
+import { addProduct, clearProduct } from '../../store/product-state';
+import { productSelector } from '../../selectors';
 
 import styles from './product.module.css';
 
-const INITIAL_STATE = { value: 0, cost: 0, image: '' };
-
-export const Product = ({ product, addInCart, addingInCartSum }) => {
-  const [marketProduct, setMarketProduct] = useState(INITIAL_STATE);
+export const Product = ({ product, addInCart, addingInCartSum, name, storage }) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
+  const dispatch = useDispatch();
+
+  const { value: valueState, cost, image } = useSelector((state) => productSelector(state, name));
+
   useEffect(() => {
-    if (marketProduct.value > 0) {
+    if (valueState > 0 && valueState <= storage[name]) {
       setIsDisabled(false);
     } else setIsDisabled(true);
-  }, [marketProduct.value]);
+  }, [valueState]);
 
-  const handleChange = (e) => {
-    if (e.target.value >= 0) {
+  const handleChange = (value) => {
+    if (valueState >= 0 && valueState <= storage[name]) {
       setIsDisabled(false);
-      setMarketProduct({
-        value: e.target.value,
-        cost: +e.target.value * product.cost,
-        image: product.imgSrc,
-      });
+      dispatch(
+        addProduct({
+          value: value,
+          cost: +value * product.cost,
+          image: product.imgSrc,
+          name,
+        }),
+      );
     } else setIsDisabled(true);
   };
 
   const buttonClick = () => {
-    addInCart(product.id, +marketProduct.value, marketProduct.cost, marketProduct.image);
-    addingInCartSum(+marketProduct.value);
-    setMarketProduct(INITIAL_STATE);
+    addInCart(name, +valueState, +cost, image);
+    addingInCartSum(+valueState);
+    dispatch(clearProduct());
   };
 
   return (
     <div className={styles.productCard}>
       <div>{product.title}</div>
       <div>{product.description}</div>
-      <img className={styles.img} src={product.imgSrc} alt={`Фото - ${product.title}`} />
+      <div>На складе - {storage[product.id]}шт.</div>
+      <Image className={styles.img} src={product.imgSrc} alt={`Фото - ${product.title}`} />
       <span>{product.cost} за</span>
-      <input
-        className={styles.input}
+      <InputNumber
         name={product.id}
         type="number"
-        value={marketProduct.value}
+        prefix="#"
+        value={valueState}
         onChange={handleChange}
+        min={0}
+        defaultValue={0}
       />
 
-      <span>{marketProduct.cost} зайчиков</span>
-      <button
-        type="button"
+      <span>{cost} зайчиков</span>
+      <Button
         className={styles.button}
         onClick={() => {
           buttonClick();
@@ -56,7 +67,7 @@ export const Product = ({ product, addInCart, addingInCartSum }) => {
         disabled={isDisabled}
       >
         В корзину
-      </button>
+      </Button>
     </div>
   );
 };
@@ -72,4 +83,10 @@ Product.propTypes = {
   }).isRequired,
   addInCart: PropTypes.func.isRequired,
   addingInCartSum: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  storage: PropTypes.shape({
+    tv: PropTypes.number,
+    fridge: PropTypes.number,
+    washingmashine: PropTypes.number,
+  }).isRequired,
 };

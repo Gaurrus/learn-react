@@ -29,8 +29,10 @@ export const Countdown = ({ cleanCart }) => {
     return num;
   };
 
+  const setTimer = () => setCount(30);
+
   return (
-    <div className={styles.countWrapper}>
+    <div aria-hidden onClick={setTimer} className={styles.countWrapper}>
       <span className={styles.timer}>{createButyTimers(Math.floor(count / 60))}</span>
       <span className={styles.timer}>:</span>
       <span className={styles.timer}>{createButyTimers(count % 60)}</span>

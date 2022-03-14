@@ -1,45 +1,38 @@
-import { useState } from 'react';
+/* eslint-disable import/no-unresolved */
+import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Modal } from 'antd';
 
 import { ProductList } from '../product-list';
 import { Nav } from '../nav';
-import { Modal } from '../modal';
 import { Cart } from '../cart';
 import { Main } from '../main';
+import { SuccesForm } from '../succes-form';
+
+import { marketSelector, storageSagaSelector, storageSelector } from '../../selectors';
+import { buyProducts, cleanMarket } from '../../store/market-state';
+import { getStorageRequest } from '../../store/storage-store-saga';
 
 import styles from './market.module.css';
 
-const INITIAL_STATE = {
-  tv: { value: 0, cost: 0, image: '' },
-  fridge: { value: 0, cost: 0, image: '' },
-  washingMashine: { value: 0, cost: 0, image: '' },
-};
-
 export const Market = ({ products }) => {
-  const [summ, setSumm] = useState(0);
-  const [state, setState] = useState(INITIAL_STATE);
+  const dispatch = useDispatch();
   const [cartValue, setСartValue] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const state = useSelector(marketSelector);
 
   const visibleModal = () => setIsModalVisible(true);
 
   const addInCart = (name, value, cost, image) => {
-    setState((prevState) => ({
-      ...prevState,
-      [name]: {
-        value: +value + +state[name].value,
-        cost: +state[name].cost + cost,
-        image: image,
-      },
-    }));
-    setSumm((prevSumm) => prevSumm + cost);
+    dispatch(buyProducts({ name, value, cost, image }));
   };
 
   const cleanCart = () => {
-    setState(INITIAL_STATE);
+    dispatch(cleanMarket());
     setСartValue(0);
-    setSumm(0);
   };
 
   const closeMessage = () => {
@@ -48,14 +41,17 @@ export const Market = ({ products }) => {
 
   const Buy = () => {
     setIsModalVisible(true);
-    if (summ <= 3000) {
-      setState(INITIAL_STATE);
-      setСartValue(0);
-      setSumm(0);
-    }
+    // if (state.summ <= 3000) {
+    //   dispatch(cleanMarket());
+    //   setСartValue(0);
+    // }
   };
 
   const addingInCartSum = (summInCart) => setСartValue(cartValue + +summInCart);
+
+  useEffect(() => dispatch(getStorageRequest()), []);
+
+  const storage = useSelector(storageSagaSelector);
 
   return (
     <div className={styles.market}>
@@ -65,13 +61,26 @@ export const Market = ({ products }) => {
           <Route
             exact
             path="/market"
-            element={<ProductList products={products} addInCart={addInCart} addingInCartSum={addingInCartSum} />}
+            element={
+              <ProductList
+                products={products}
+                addInCart={addInCart}
+                addingInCartSum={addingInCartSum}
+                storage={storage.data}
+              />
+            }
           />
           <Route
             exact
             path="/cart"
             element={
-              <Cart inCart={state} cleanCart={cleanCart} Buy={Buy} addingInCartSum={addingInCartSum} summ={summ} />
+              <Cart
+                inCart={state}
+                cleanCart={cleanCart}
+                Buy={Buy}
+                addingInCartSum={addingInCartSum}
+                summ={state.summ}
+              />
             }
           />
         </Routes>
@@ -80,11 +89,11 @@ export const Market = ({ products }) => {
           cleanCart={cleanCart}
           visibleModal={visibleModal}
           closeMessage={closeMessage}
-          summ={summ}
+          summ={state.summ}
         />
         {isModalVisible && (
-          <Modal closeMessage={closeMessage}>
-            {summ <= 3000 ? <div>Поздравляем с покупками!</div> : <div>Не достаточно средств</div>}
+          <Modal closeMessage={closeMessage} visible={isModalVisible} onCancel={closeMessage} footer={null}>
+            {state.summ <= 3000 ? <SuccesForm state={state} /> : <div>Не достаточно средств</div>}
           </Modal>
         )}
       </BrowserRouter>
